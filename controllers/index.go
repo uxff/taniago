@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
+	"github.com/uxff/taniago/utils/paginator"
 )
 
 type Picset struct {
@@ -21,6 +23,7 @@ var localDirRoot = "R:/themedia"
 var fsRoute = "/fs"
 var nothumbUrl = "/static/images/nothumb.png"
 var picsetRoute = "/picset"
+var pageSize = 10
 
 type IndexController struct {
 	beego.Controller
@@ -36,10 +39,12 @@ func (this *IndexController) Index() {
 func (this *IndexController) Picset() {
 
 	//
-	subdirname := this.Ctx.Input.Param(":splat")
+	fullDirName := this.Ctx.Input.Param(":splat")
 
-	logs.Info("subdirname from url param:%s", subdirname)
-	dirpath := localDirRoot+"/"+subdirname
+	curDirName := path.Base(fullDirName)
+
+	logs.Info("fullDirName from url param:%s curDirName=%s ", fullDirName, curDirName)
+	dirpath := localDirRoot+"/"+fullDirName
 
 	dirHandle, err := ioutil.ReadDir(dirpath)
 	if err != nil {
@@ -50,37 +55,52 @@ func (this *IndexController) Picset() {
 	//thedirnames := make([]string, 0)
 	theDirList := make([]*Picset, 0)
 
+
 	//
-	if subdirname != "" && subdirname[len(subdirname)-1]!='/' {
-		subdirname = subdirname+"/"
+	if fullDirName != "" && fullDirName[len(fullDirName)-1]!='/' {
+		fullDirName = fullDirName+"/"
 	}
 
-	for _, fi := range dirHandle {
+	allNum := len(dirHandle)
+
+	p := paginator.NewPaginator(this.Ctx.Request, pageSize, int64(allNum))
+	this.Data["paginator"] = p
+
+	picIdx := 0
+
+	for i, fi := range dirHandle {
+
+		if i < (p.Page()-1)*pageSize || i>=p.Page()*pageSize {
+			continue
+		}
+
 		if fi.IsDir() {
 
-			thumbPath := this.getThumbOfDir(subdirname+fi.Name(), fsRoute)
+			// 目录 该目录下如果有封面，选出封面
+			thumbPath := this.getThumbOfDir(fullDirName+fi.Name(), fsRoute)
 			//logs.Info("fi.name=%v thumb path=%v", fi.Name(), thumbPath)
-
 
 			theDirList = append(theDirList, &Picset{
 				Dirpath:dirpath+"/"+fi.Name(),
-				Name:"[DIR]"+fi.Name(),
+				Name:"[DIR]"+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
 				Thumb:thumbPath,
-				Url:picsetRoute+"/"+subdirname+fi.Name(),
+				Url:picsetRoute+"/"+fullDirName+fi.Name(),
 			})
 
-
 		} else {
-			if fi.Name() == "thumb.jpg" || fi.Name() == "thumb.png" {
+			if fi.Name() == "thumb.jpg" || fi.Name() == "thumb.png" || fi.Name()=="thumb.gif" {
 				continue
 			}
 
+			picIdx++
+
+			// 只有图片才展示
 			fExt := path.Ext(fi.Name())
 			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
-				thumbPath := subdirname+fi.Name()
+				thumbPath := fullDirName+fi.Name()
 				theDirList = append(theDirList, &Picset{
 					Dirpath:dirpath+"/"+fi.Name(),
-					Name:fi.Name(),
+					Name:fmt.Sprintf("%s-%d", curDirName, picIdx),
 					Thumb:fsRoute+"/"+thumbPath,
 					Url:fsRoute+"/"+thumbPath,
 				})

@@ -89,7 +89,7 @@
                                     <img src="{{$aname.Thumb}}" alt="封面图">
                                 </a>
                                 <div class="caption">
-                                    <p>{{$aname.Name}}</p>
+                                    <p style="text-align:center;">{{$aname.Name}}</p>
                                 </div>
                             </div>
                         </div>
@@ -99,6 +99,8 @@
             </div>
         </div>
     </div>
+{{template "layouts/paginator.html" .}}
+
 </div>
 
 
