@@ -11,6 +11,7 @@ import (
 	_ "github.com/uxff/taniago/routers"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
+	"github.com/uxff/taniago/controllers"
 )
 
 func convertTypetoIcon(in string) (out string) {
@@ -45,18 +46,24 @@ func genBackBtn(currentpath string) (out template.HTML) {
 	return
 
 }
+
 func main() {
 	logdeep := 3
+	serveDir := "r:/themedia" //"."
 	flag.IntVar(&logdeep, "logdeep", logdeep, "log deep")
+	flag.StringVar(&serveDir, "dir", serveDir, "serve dir, witch will browse")
 	flag.Parse()
 
 	beego.AddFuncMap("fileConv", convertTypetoIcon)
 	beego.AddFuncMap("genBackBtn", genBackBtn)
 	beego.AddFuncMap("genLink", genLink)
 	beego.AddFuncMap("converTime", converTime)
-	beego.SetStaticPath("fs", "r:/themedia")
+	beego.SetStaticPath("fs", serveDir)
 	logs.SetLevel(logs.LevelInfo)
 	logs.SetLogFuncCallDepth(logdeep)
+
+	controllers.SetLocalDirRoot(serveDir)
+
 
 	beego.Run()
 }
