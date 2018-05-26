@@ -85,10 +85,11 @@
                         {{range $k, $aname := .thedirnames}}
                         <div class="col-sm-6 col-md-3">
                             <div class="thumbnail">
-                                <img src="/static/images/bg-input-focus.png"
-                                     alt="通用的占位符缩略图">
+                                <a href="{{$aname.Url}}">
+                                    <img src="{{$aname.Thumb}}" alt="封面图">
+                                </a>
                                 <div class="caption">
-                                    <p>{{$aname}}</p>
+                                    <p>{{$aname.Name}}</p>
                                 </div>
                             </div>
                         </div>
