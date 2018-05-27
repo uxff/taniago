@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"time"
 	"path"
 
 	"github.com/astaxie/beego"
@@ -23,6 +24,11 @@ type Picset struct {
 	Name string
 	Thumb string
 	Url string
+}
+
+type CacheItem struct {
+	Created time.Time
+	PicsetList []*Picset
 }
 
 var staticRoot = "/55156.com-replicate"
@@ -48,7 +54,7 @@ func (this *IndexController) Index() {
 }
 
 // picset list
-// todo: cache, nav home link, multi domain, user login, pay and access
+// todo: cache, nav home link, multi domain, user login, pay and access, advertise
 func (this *IndexController) Picset() {
 
 	//
@@ -62,86 +68,35 @@ func (this *IndexController) Picset() {
 	this.Data["parentLink"] = picsetRoute+"/"+fullParentName
 
 	logs.Info("fullDirName from url param:%s curDirName=%s parentName=%s", fullDirName, curDirName, fullParentName )
-	dirpath := localDirRoot+"/"+fullDirName
+	//dirpath := localDirRoot+"/"+fullDirName
 
 	//thedirnames := make([]string, 0)
-	theDirList := make([]*Picset, 0)
+	theDirList := GetPicsetListFromDir(fullDirName)
 
-	dirHandle, err := ioutil.ReadDir(dirpath)
-	if err != nil {
-		//logs.Warn("open dir %s error:%v", dirpath, err)
+	if theDirList == nil {
+		//logs.Warn("open dir %s error:%v", fullDirName)
 		this.Ctx.ResponseWriter.WriteHeader(404)
-		this.Ctx.ResponseWriter.Write([]byte("open dir error:"+err.Error()))
+		//this.Ctx.ResponseWriter.Write([]byte("open dir error:"+err.Error()))
 		return
 	}
 
-
-
-	//
-	if fullDirName != "" && fullDirName[len(fullDirName)-1]!='/' {
-		fullDirName = fullDirName+"/"
-	}
-
-	allNum := len(dirHandle)
+	allNum := len(theDirList)
 
 	p := paginator.NewPaginator(this.Ctx.Request, pageSize, int64(allNum))
 	this.Data["paginator"] = p
 
-	picIdx := 0
-
-	for i, fi := range dirHandle {
-
-		if i < (p.Page()-1)*pageSize || i>=p.Page()*pageSize {
-			continue
-		}
-
-		if fi.IsDir() {
-			if fi.Name() == "thumbs" {
-				continue
-			}
-
-			// 目录 该目录下如果有封面，选出封面
-			thumbPath := this.getThumbOfDir(fullDirName+fi.Name(), fsRoute)
-			//logs.Info("fi.name=%v thumb path=%v", fi.Name(), thumbPath)
-
-			theDirList = append(theDirList, &Picset{
-				Dirpath:dirpath+"/"+fi.Name(),
-				Name:"[DIR]"+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
-				Thumb:thumbPath,
-				Url:picsetRoute+"/"+fullDirName+fi.Name(),
-			})
-
-		} else {
-			if fi.Name() == "thumb.jpg" || fi.Name() == "thumb.png" || fi.Name()=="thumb.gif" {
-				continue
-			}
-
-			picIdx++
-
-			// 只有图片才展示
-			fExt := path.Ext(fi.Name())
-			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
-				thumbPath := fullDirName+fi.Name()
-				theDirList = append(theDirList, &Picset{
-					Dirpath:dirpath+"/"+fi.Name(),
-					Name:fmt.Sprintf("%s-%d", curDirName, picIdx),
-					Thumb:fsRoute+"/"+thumbPath,
-					Url:fsRoute+"/"+thumbPath,
-				})
-
-			}
-
-		}
-
+	last:= p.Page()*pageSize
+	if last >= len(theDirList) {
+		last = len(theDirList)
 	}
+	thePagedDirList := theDirList[(p.Page()-1)*pageSize:last]
 
-
-	this.Data["thedirnames"] = theDirList
+	this.Data["thedirnames"] = thePagedDirList //theDirList
 
 	this.TplName = "picset/view.html"
 }
 
-func (this *IndexController) getThumbOfDir(path, preRoute string) string {
+func getThumbOfDir(path, preRoute string) string {
 	if _, err := os.Stat(localDirRoot+"/"+path + "/thumb.jpg"); err == nil {
 		return fsRoute +"/"+ path+"/thumb.jpg"
 	}
@@ -155,4 +110,89 @@ func (this *IndexController) getThumbOfDir(path, preRoute string) string {
 
 func SetLocalDirRoot(dir string) {
 	localDirRoot = dir
+}
+
+/**
+	dirpath must under localRoot
+*/
+func GetPicsetListFromDir(dirpath string) []*Picset {
+	// dirCache = localDirPath=>[]*Picset
+
+	if dirpath == "" {
+		return nil
+	}
+
+	curDirName := path.Base(dirpath)
+	//parentDirName := path.Dir(dirpath)
+
+	if dirpath[len(dirpath)-1] != '/' {
+		dirpath = dirpath + "/"
+	}
+
+
+	// return if exist
+	if existPicsetList, ok := dirCache[dirpath]; ok {
+		if existPicsetList != nil {
+			return existPicsetList
+		}
+	}
+
+	dirHandle, err := ioutil.ReadDir(localDirRoot+"/"+dirpath)
+	if err != nil {
+		logs.Warn("open dir %s error:%v", dirpath, err)
+		//this.Ctx.ResponseWriter.WriteHeader(404)
+		//this.Ctx.ResponseWriter.Write([]byte("open dir error:"+err.Error()))
+		return nil
+	}
+
+	theDirList := make([]*Picset, 0)
+	//picIdx := 0
+	allNum := len(dirHandle)
+
+	for i, fi := range dirHandle {
+
+		if fi.IsDir() {
+			if fi.Name() == "thumbs" {
+				continue
+			}
+
+			// 目录 该目录下如果有封面，选出封面
+			thumbPath := getThumbOfDir(dirpath+fi.Name(), fsRoute)
+			//logs.Info("fi.name=%v thumb path=%v", fi.Name(), thumbPath)
+
+			theDirList = append(theDirList, &Picset{
+				Dirpath:dirpath+"/"+fi.Name(),
+				Name:"[DIR]"+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
+				Thumb:thumbPath,
+				Url:picsetRoute+"/"+dirpath+fi.Name(),
+			})
+
+		} else {
+			if fi.Name() == "thumb.jpg" || fi.Name() == "thumb.png" || fi.Name()=="thumb.gif" {
+				continue
+			}
+
+			//picIdx++
+
+			// 只有图片才展示
+			fExt := path.Ext(fi.Name())
+			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
+				thumbPath := dirpath+fi.Name()
+				theDirList = append(theDirList, &Picset{
+					Dirpath:dirpath+"/"+fi.Name(),
+					Name:fmt.Sprintf("%s(%d/%d)", curDirName, i+1, allNum),
+					Thumb:fsRoute+"/"+thumbPath,
+					Url:fsRoute+"/"+thumbPath,
+				})
+
+			}
+
+		}
+
+	}
+
+	dirCache[dirpath] = theDirList
+	logs.Info("path %s is loaded into cache", dirpath)
+
+	return theDirList
 }
