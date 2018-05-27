@@ -31,9 +31,15 @@ var fsRoute = "/fs"
 var nothumbUrl = "/static/images/nothumb.png"
 var picsetRoute = "/picset"
 var pageSize = 8
+var dirCache map[string][]*Picset
+
 
 type IndexController struct {
 	beego.Controller
+}
+
+func init() {
+	dirCache = make(map[string][]*Picset, 0)
 }
 
 func (this *IndexController) Index() {
@@ -42,7 +48,7 @@ func (this *IndexController) Index() {
 }
 
 // picset list
-// todo: page
+// todo: cache, nav home link, multi domain, user login, pay and access
 func (this *IndexController) Picset() {
 
 	//
@@ -58,6 +64,9 @@ func (this *IndexController) Picset() {
 	logs.Info("fullDirName from url param:%s curDirName=%s parentName=%s", fullDirName, curDirName, fullParentName )
 	dirpath := localDirRoot+"/"+fullDirName
 
+	//thedirnames := make([]string, 0)
+	theDirList := make([]*Picset, 0)
+
 	dirHandle, err := ioutil.ReadDir(dirpath)
 	if err != nil {
 		//logs.Warn("open dir %s error:%v", dirpath, err)
@@ -66,8 +75,6 @@ func (this *IndexController) Picset() {
 		return
 	}
 
-	//thedirnames := make([]string, 0)
-	theDirList := make([]*Picset, 0)
 
 
 	//

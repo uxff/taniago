@@ -64,6 +64,8 @@ func main() {
 
 	controllers.SetLocalDirRoot(serveDir)
 
+	logs.Info("the serve dir=%s", serveDir)
+
 
 	beego.Run()
 }
