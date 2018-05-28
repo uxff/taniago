@@ -60,6 +60,8 @@ func (this *IndexController) Picset() {
 	//
 	fullDirName := this.Ctx.Input.Param(":splat")
 
+	//logs.Info("fullDirName from param=%v", fullDirName)
+
 	curDirName := path.Base(fullDirName)
 	fullParentName := path.Dir(fullDirName)
 
@@ -67,7 +69,7 @@ func (this *IndexController) Picset() {
 	this.Data["fullParentName"] = fullParentName
 	this.Data["parentLink"] = picsetRoute+"/"+fullParentName
 
-	logs.Info("fullDirName from url param:%s curDirName=%s parentName=%s", fullDirName, curDirName, fullParentName )
+	//logs.Info("fullDirName from url param:%s curDirName=%s parentName=%s", fullDirName, curDirName, fullParentName )
 	//dirpath := localDirRoot+"/"+fullDirName
 
 	//thedirnames := make([]string, 0)
@@ -76,7 +78,7 @@ func (this *IndexController) Picset() {
 	if theDirList == nil {
 		//logs.Warn("open dir %s error:%v", fullDirName)
 		this.Ctx.ResponseWriter.WriteHeader(404)
-		//this.Ctx.ResponseWriter.Write([]byte("open dir error:"+err.Error()))
+		this.Ctx.ResponseWriter.Write([]byte("dir not exist:"+fullDirName))
 		return
 	}
 
@@ -117,15 +119,16 @@ func SetLocalDirRoot(dir string) {
 */
 func GetPicsetListFromDir(dirpath string) []*Picset {
 	// dirCache = localDirPath=>[]*Picset
+	//logs.Info("in GetPicsetListFromDir, dirpath=%s", dirpath)
 
 	if dirpath == "" {
-		return nil
+		//return nil
 	}
 
 	curDirName := path.Base(dirpath)
 	//parentDirName := path.Dir(dirpath)
 
-	if dirpath[len(dirpath)-1] != '/' {
+	if len(dirpath) > 0 && dirpath[len(dirpath)-1] != '/' {
 		dirpath = dirpath + "/"
 	}
 
@@ -137,6 +140,8 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 		}
 	}
 
+	//logs.Info("not exist:%s", dirpath)
+
 	dirHandle, err := ioutil.ReadDir(localDirRoot+"/"+dirpath)
 	if err != nil {
 		logs.Warn("open dir %s error:%v", dirpath, err)
@@ -144,6 +149,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 		//this.Ctx.ResponseWriter.Write([]byte("open dir error:"+err.Error()))
 		return nil
 	}
+
 
 	theDirList := make([]*Picset, 0)
 	//picIdx := 0
