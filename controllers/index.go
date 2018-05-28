@@ -17,6 +17,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/uxff/taniago/utils/paginator"
 	"github.com/astaxie/beego/logs"
+	"github.com/buger/jsonparser"
 )
 
 type Picset struct {
@@ -54,7 +55,7 @@ func (this *IndexController) Index() {
 }
 
 // picset list
-// todo: cache, nav home link, multi domain, user login, pay and access, advertise
+// todo: cache, multi domain, user login, pay and access, advertise
 func (this *IndexController) Picset() {
 
 	//
@@ -98,16 +99,33 @@ func (this *IndexController) Picset() {
 	this.TplName = "picset/view.html"
 }
 
-func getThumbOfDir(path, preRoute string) string {
-	if _, err := os.Stat(localDirRoot+"/"+path + "/thumb.jpg"); err == nil {
-		return fsRoute +"/"+ path+"/thumb.jpg"
+func getThumbOfDir(dirpath, preRoute string) string {
+	if _, err := os.Stat(localDirRoot+"/"+dirpath + "/thumb.jpg"); err == nil {
+		return preRoute +"/"+ dirpath+"/thumb.jpg"
 	}
 
-	if _, err := os.Stat(localDirRoot+"/"+path+"/thumb.png"); err == nil {
-		return fsRoute+"/"+path+"/thumb.png"
+	if _, err := os.Stat(localDirRoot+"/"+dirpath+"/thumb.png"); err == nil {
+		return preRoute+"/"+dirpath+"/thumb.png"
 	}
 
 	return nothumbUrl
+}
+
+func getTitleOfDir(dirpath, defaultName string) string {
+	if fhandle, err := os.Open(localDirRoot+"/"+dirpath + "/config.json"); err == nil {
+		//logs.Info("open %v", dirpath)
+		defer fhandle.Close()
+		content, rerr := ioutil.ReadAll(fhandle)
+		if rerr == nil {
+			//logs.Info("read %s", content)
+			title, _ := jsonparser.GetString(content, "title")
+			return title
+		}
+	}
+
+	//logs.Warn("cannot open:%s", localDirRoot+"/"+dirpath + "/config.json")
+
+	return defaultName
 }
 
 func SetLocalDirRoot(dir string) {
@@ -152,10 +170,10 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 
 
 	theDirList := make([]*Picset, 0)
-	//picIdx := 0
-	allNum := len(dirHandle)
+	picIdx := 0
+	//allNum := len(dirHandle)
 
-	for i, fi := range dirHandle {
+	for _, fi := range dirHandle {
 
 		if fi.IsDir() {
 			if fi.Name() == "thumbs" {
@@ -168,7 +186,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 
 			theDirList = append(theDirList, &Picset{
 				Dirpath:dirpath+"/"+fi.Name(),
-				Name:"[DIR]"+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
+				Name:"[DIR]"+fi.Name(),//getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
 				Thumb:thumbPath,
 				Url:picsetRoute+"/"+dirpath+fi.Name(),
 			})
@@ -178,7 +196,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 				continue
 			}
 
-			//picIdx++
+			picIdx++
 
 			// 只有图片才展示
 			fExt := path.Ext(fi.Name())
@@ -186,7 +204,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 				thumbPath := dirpath+fi.Name()
 				theDirList = append(theDirList, &Picset{
 					Dirpath:dirpath+"/"+fi.Name(),
-					Name:fmt.Sprintf("%s(%d/%d)", curDirName, i+1, allNum),
+					Name:fmt.Sprintf("%s-%d", curDirName, picIdx),
 					Thumb:fsRoute+"/"+thumbPath,
 					Url:fsRoute+"/"+thumbPath,
 				})
