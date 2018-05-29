@@ -55,7 +55,7 @@ func (this *IndexController) Index() {
 }
 
 // picset list
-// todo: cache, multi domain, user login, pay and access, advertise
+// todo: cache, multi domain, user login/register, pay and access, advertise, shoping mall
 func (this *IndexController) Picset() {
 
 	//
