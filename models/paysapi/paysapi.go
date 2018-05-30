@@ -16,6 +16,7 @@ import (
 	"encoding/hex"
 
 	"github.com/uxff/taniago/utils"
+	"github.com/astaxie/beego/logs"
 )
 
 
@@ -68,11 +69,12 @@ func (r *PaymentReq) MakeSign() string {
 
 type PaymentRes struct {
 	Msg string `json:"msg"`
-	Data struct {
-		Qrcode string `json:"qrcode"`
-		Istype ChanType `json:"istype"`
-		Realprice float32 `json:"realprice"`
-	} `json:"data"`
+	//Data struct {
+	//	Qrcode string `json:"qrcode"`
+	//	Istype ChanType `json:"istype"`
+	//	Realprice float32 `json:"realprice"`
+	//} `json:"data"`
+	Data interface{} `json:"data"`
 	Code int `json:"code"`
 	Url string `json:"url"`
 }
@@ -101,7 +103,7 @@ func (r *PaymentNotifyReq) FromString(str string) {
 
 func RequestPayment(req *PaymentReq) (*PaymentRes, error) {
 
-	//logs.Info("req.Tostring=%s", req.ToString())
+	logs.Info("before request parment req.Tostring=%s", req.ToString())
 	resBody, err := utils.HttpPostBody(ApiPaymentJson, map[string]string{"Content-Type":"application/x-www-form-urlencoded"}, []byte(req.ToString()))
 	if err != nil {
 		return nil, fmt.Errorf("when RequestPayment orderId:%s error:%v req=%s", req.OrderId, err, req.ToString())

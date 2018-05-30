@@ -1,6 +1,21 @@
 {{template "layouts/head.html"}}
+<script type="text/javascript" src="/static/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.qrcode.min.js"></script>
 
 <img src="{{.qrcode}}">
+<div id="theqrcode" style="padding:10px"></div>
 <p>{{.msg}}</p>
+
+
+
+<script type="text/javascript">
+$('#theqrcode').qrcode("{{.qrcode}}");
+$("#qrcode").qrcode({
+render: "table", //table方式
+width: 180, //宽度
+height:180, //高度
+text: "{{.qrcode}}" //任意内容
+});
+</script>
 
 {{template "layouts/footer.html"}}
