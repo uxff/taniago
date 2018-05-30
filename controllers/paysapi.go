@@ -17,13 +17,14 @@ func (this *PaysapiController) Payment() {
 	this.TplName = "paysapi/payment.html"
 
 	//this.GetString()
-	paysapi.SetNotifyUrl(beego.URLFor("PaysapiController.Notify"))
-	paysapi.SetReturnUrl(beego.URLFor("PaysapiController.PaymentStatus"))
+
+	paysapi.SetNotifyUrl("http://localhost"+beego.URLFor("PaysapiController.Notify"))
+	paysapi.SetReturnUrl("http://localhost"+beego.URLFor("PaysapiController.PaymentStatus"))
 
 	logs.Info("uid=%s token=%v", beego.AppConfig.DefaultString("paysapi_uid", ""), beego.AppConfig.DefaultString("paysapi_token", ""))
 	paysapi.SetPaysapi(beego.AppConfig.DefaultString("paysapi_uid", ""), beego.AppConfig.DefaultString("paysapi_token", ""))
 
-	pres, err := paysapi.SimplePayment("100321", 8, 1, "uid1001", "")
+	pres, err := paysapi.SimplePayment("100321", 8, paysapi.ChanWeixin, "uid1001", "")
 	if err != nil {
 		logs.Error("go payment error:%v", err)
 		return

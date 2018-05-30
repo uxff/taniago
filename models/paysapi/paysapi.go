@@ -13,15 +13,22 @@ import (
 	"crypto/md5"
 	"fmt"
 	"encoding/json"
+	"encoding/hex"
 
 	"github.com/uxff/taniago/utils"
 )
 
-type PaysapiChanType = int
 
 const (
-	ApiPayment = "https://pay.bbbapi.com/?format=json"
+	ApiPaymentJson = "https://pay.bbbapi.com/?format=json"
+	ApiPaymentPage = "https://pay.bbbapi.com/"
 	ApiQueryPayment = "https://api.bbbapi.com/get_order_staus_by_id"
+)
+
+type ChanType = int
+const (
+	ChanAlipay ChanType = 1
+	ChanWeixin ChanType = 2
 )
 
 type OrderStatus = int
@@ -41,7 +48,7 @@ var (
 type PaymentReq struct {
 	Uid       string
 	Price     string // 单位：分
-	IsType    PaysapiChanType	// 1:alipay 2:weipay
+	IsType    ChanType	// 1:alipay 2:weipay
 	NotifyUrl string
 	ReturnUrl string
 	OrderId   string
@@ -51,7 +58,7 @@ type PaymentReq struct {
 }
 
 func (r *PaymentReq) ToString() string {
-	return fmt.Sprintf("uid=%s&price=%s&istype=%d&notify_url=%s&return_url=%s&orderid=%s&orderuid=%sgoodsname=%s&key=%s",
+	return fmt.Sprintf("uid=%s&price=%s&istype=%d&notify_url=%s&return_url=%s&orderid=%s&orderuid=%s&goodsname=%s&key=%s",
 		r.Uid, r.Price, r.IsType, r.NotifyUrl, r.ReturnUrl, r.OrderId, r.OrderUid, r.GoodsName, r.MakeSign())
 }
 
@@ -63,8 +70,8 @@ type PaymentRes struct {
 	Msg string `json:"msg"`
 	Data struct {
 		Qrcode string `json:"qrcode"`
-		Istype string `json:"istype"`
-		Realprice string `json:"realprice"`
+		Istype ChanType `json:"istype"`
+		Realprice float32 `json:"realprice"`
 	} `json:"data"`
 	Code int `json:"code"`
 	Url string `json:"url"`
@@ -94,21 +101,22 @@ func (r *PaymentNotifyReq) FromString(str string) {
 
 func RequestPayment(req *PaymentReq) (*PaymentRes, error) {
 
-	resBody, err := utils.HttpPostBody(ApiPayment, nil, []byte(req.ToString()))
+	//logs.Info("req.Tostring=%s", req.ToString())
+	resBody, err := utils.HttpPostBody(ApiPaymentJson, map[string]string{"Content-Type":"application/x-www-form-urlencoded"}, []byte(req.ToString()))
 	if err != nil {
-		return nil, fmt.Errorf("when RequestPayment error:%v orderId:%s", err, req.OrderId)
+		return nil, fmt.Errorf("when RequestPayment orderId:%s error:%v req=%s", req.OrderId, err, req.ToString())
 	}
 
 	res := &PaymentRes{}
 	err = json.Unmarshal(resBody, res)
 	if err != nil {
-		return nil, fmt.Errorf("when RequestPayment error:%v orderId:%s", err, req.OrderId)
+		return nil, fmt.Errorf("when RequestPayment orderId:%s error:%v resBody=%s", req.OrderId, err, resBody)
 	}
 
 	return res, nil
 }
 
-func SimplePayment(orderId string, price int, payChan PaysapiChanType, orderUid, goodsName string) (*PaymentRes, error) {
+func SimplePayment(orderId string, price int, payChan ChanType, orderUid, goodsName string) (*PaymentRes, error) {
 	req := &PaymentReq{
 		OrderId:orderId,
 		Price:fmt.Sprintf("%.2f", float32(price)/100.0),
@@ -182,7 +190,7 @@ func SimpleQueryPayment(orderId string) (OrderStatus, error) {
 func Md5(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
-	return string(h.Sum(nil))
+	return hex.EncodeToString(h.Sum(nil))
 }
 
 func SetPaysapi(uid, token string) {
