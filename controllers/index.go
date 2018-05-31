@@ -186,7 +186,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 
 			theDirList = append(theDirList, &Picset{
 				Dirpath:dirpath+"/"+fi.Name(),
-				Name:"[DIR]"+fi.Name(),//getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
+				Name:"[DIR]"+getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
 				Thumb:thumbPath,
 				Url:picsetRoute+"/"+dirpath+fi.Name(),
 			})
@@ -204,7 +204,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 				thumbPath := dirpath+fi.Name()
 				theDirList = append(theDirList, &Picset{
 					Dirpath:dirpath+"/"+fi.Name(),
-					Name:fmt.Sprintf("%s-%d", curDirName, picIdx),
+					Name:fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//fmt.Sprintf("%s-%d", curDirName, picIdx),
 					Thumb:fsRoute+"/"+thumbPath,
 					Url:fsRoute+"/"+thumbPath,
 				})
