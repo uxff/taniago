@@ -58,6 +58,8 @@ func (this *IndexController) Index() {
 // todo: cache, multi domain, user login/register, pay and access, advertise, shoping mall
 func (this *IndexController) Picset() {
 
+	this.Data["appname"] = beego.AppConfig.String("appname")
+
 	//
 	fullDirName := this.Ctx.Input.Param(":splat")
 
