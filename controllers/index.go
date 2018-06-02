@@ -4,6 +4,9 @@
 		- ${dir1}/thumb.jpg		# 用于封面图 可以是.jpg,.png,.gif
 		- ${dir1}/thubs/		# 用于存放原图对应的缩略图 计划中
 		- 目录名称当成图集名称
+	// done: cache, paysapi, static fs, page
+	// todo: multi domain, login/register, pay and access, advertise, shopping mall, bitpay, ethereum pay
+
 */
 package controllers
 
@@ -55,7 +58,6 @@ func (this *IndexController) Index() {
 }
 
 // picset list
-// todo: cache, multi domain, user login/register, pay and access, advertise, shoping mall
 func (this *IndexController) Picset() {
 
 	this.Data["appname"] = beego.AppConfig.String("appname")
