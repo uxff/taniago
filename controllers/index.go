@@ -5,8 +5,8 @@
 		- ${dir1}/thubs/		# 用于存放原图对应的缩略图 计划中
 		- 目录名称当成图集名称
 	// done: cache, paysapi, static fs, page
-	// todo: multi domain, login/register, pay and access, advertise, shopping mall, bitpay, ethereum pay
-
+	// todo: multi domain, login/register, pay and access, advertise, shopping mall, bitpay, ethereum pay，
+, fake oeder
 */
 package controllers
 
