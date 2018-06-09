@@ -2,8 +2,8 @@
 	图片化浏览某个目录
 	如果浏览目录dir1,则需要目录${dir1}支持或提供以下特性：
 		- ${dir1}/thumb.jpg		# 用于封面图 可以是.jpg,.png,.gif
-		- ${dir1}/thubs/		# 用于存放原图对应的缩略图 计划中
-		- 目录名称当成图集名称
+		- ${dir1}/thumbs/		# 用于存放原图对应的缩略图
+		- 目录名称当前图集显示名称
 	// done: cache, paysapi, static fs, page
 	// todo: multi domain, login/register, pay and access, advertise, shopping mall, bitpay, ethereum pay，
 , fake oeder
