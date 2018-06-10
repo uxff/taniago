@@ -6,7 +6,7 @@
 		- 目录名称当前图集显示名称
 	// done: cache, paysapi, static fs, page
 	// todo: multi domain, login/register, pay and access, advertise, shopping mall, bitpay, ethereum pay，
-, fake oeder
+, fake order
 */
 package controllers
 
