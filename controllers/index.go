@@ -16,6 +16,7 @@ import (
 	"os"
 	"time"
 	"path"
+	"strings"
 
 	"github.com/astaxie/beego"
 	"github.com/uxff/taniago/utils/paginator"
@@ -179,8 +180,9 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 
 	for _, fi := range dirHandle {
 
+		lName := strings.ToLower(fi.Name())
 		if fi.IsDir() {
-			if fi.Name() == "thumbs" {
+			if lName == "thumbs" {
 				continue
 			}
 
@@ -196,14 +198,14 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 			})
 
 		} else {
-			if fi.Name() == "thumb.jpg" || fi.Name() == "thumb.png" || fi.Name()=="thumb.gif" {
+			if lName == "thumb.jpg" || lName == "thumb.png" || lName=="thumb.gif" {
 				continue
 			}
 
 			picIdx++
 
 			// 只有图片才展示
-			fExt := path.Ext(fi.Name())
+			fExt := path.Ext(lName)
 			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
 				thumbPath := dirpath+fi.Name()
 				theDirList = append(theDirList, &Picset{
