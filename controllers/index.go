@@ -65,6 +65,12 @@ func (this *IndexController) Picset() {
 
 	//
 	fullDirName := this.Ctx.Input.Param(":splat")
+	c := this.GetString("c")
+	switch c {
+	case "clearcache":
+		dirCache = make(map[string][]*Picset, 0)
+		logs.Debug("dir cache cleared")
+	}
 
 	//logs.Info("fullDirName from param=%v", fullDirName)
 
