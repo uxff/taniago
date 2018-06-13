@@ -6,7 +6,7 @@
 		- 目录名称当前图集显示名称
 	// done: cache, paysapi, static fs, page
 	// todo: multi domain, login/register, pay and access, advertise, shopping mall, bitpay, ethereum pay，
-, fake order
+, fake order, friendly link(hard)
 */
 package controllers
 
@@ -174,8 +174,6 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 	dirHandle, err := ioutil.ReadDir(localDirRoot+"/"+dirpath)
 	if err != nil {
 		logs.Warn("open dir %s error:%v", dirpath, err)
-		//this.Ctx.ResponseWriter.WriteHeader(404)
-		//this.Ctx.ResponseWriter.Write([]byte("open dir error:"+err.Error()))
 		return nil
 	}
 
@@ -196,9 +194,11 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 			thumbPath := getThumbOfDir(dirpath+fi.Name(), fsRoute)
 			//logs.Info("fi.name=%v thumb path=%v", fi.Name(), thumbPath)
 
+			dirTitle := fi.Name()//getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum)
+
 			theDirList = append(theDirList, &Picset{
 				Dirpath:dirpath+"/"+fi.Name(),
-				Name:"[DIR]"+getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum),
+				Name:"[DIR]"+dirTitle,
 				Thumb:thumbPath,
 				Url:picsetRoute+"/"+dirpath+fi.Name(),
 			})
@@ -216,7 +216,7 @@ func GetPicsetListFromDir(dirpath string) []*Picset {
 				thumbPath := dirpath+fi.Name()
 				theDirList = append(theDirList, &Picset{
 					Dirpath:dirpath+"/"+fi.Name(),
-					Name:fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//fmt.Sprintf("%s-%d", curDirName, picIdx),
+					Name:fmt.Sprintf("%s-%d", curDirName, picIdx),//fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
 					Thumb:fsRoute+"/"+thumbPath,
 					Url:fsRoute+"/"+thumbPath,
 				})
