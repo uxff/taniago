@@ -35,11 +35,11 @@ func GetByEmail(email string) (*UserEntity, error) {
 }
 
 
-func ValidateEmail(verifyCode string) error {
+func VerifyEmail(verifyCode string) error {
 	return nil
 }
 
-func SendValidateEmailCode(email string) error {
+func SendVerifyCodeByEmail(email string) error {
 	return nil
 }
 
