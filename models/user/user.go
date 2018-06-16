@@ -5,18 +5,30 @@ import "time"
 // email unique
 
 type UserEntity struct {
-	Email string	// email unique
-	Username string	// user name not unique
+	Email    string // email unique
+	Username string // user name not unique
 	Password string
-	Phone string
+	Phone    string
 
 	RegisterTime time.Time
-	RegisterIp string
+	RegisterIp   string
 
 	LastLoginTime time.Time
-	LastLoginIp string
+	LastLoginIp   string
 }
 
+type UserToken = string
+
+type UserModel interface {
+	Login(user, password string) (UserToken, error)
+	IsLogin(ut UserToken) *UserEntity
+	Logout(ut UserToken)
+	Register(ue *UserEntity) error
+	SendVerifyCodeByEmail(email string) error
+	VerifyEmail(verifyCode string) error
+
+	ResetPassword(ue *UserEntity, pwd string) error
+}
 
 // interface for controller or biz
 // for register
@@ -29,11 +41,9 @@ func CheckPwd(email, pwd string) error {
 	return nil
 }
 
-
 func GetByEmail(email string) (*UserEntity, error) {
 	return nil, nil
 }
-
 
 func VerifyEmail(verifyCode string) error {
 	return nil
@@ -42,4 +52,3 @@ func VerifyEmail(verifyCode string) error {
 func SendVerifyCodeByEmail(email string) error {
 	return nil
 }
-
