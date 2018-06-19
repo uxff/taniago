@@ -6,21 +6,28 @@ package controllers
 
 import (
 	usermodel "github.com/uxff/taniago/models/user"
+	"github.com/astaxie/beego"
 )
 
 type UserController struct {
-	MainController
+	BaseController
 }
 
-/**
-    show user profile?
-*/
-func (this *UserController) Index() {
-    this.Ctx.Redirect(302, "/index")
-
-	this.TplName = "index.html"
-	return
+func (c *UserController) NestPrepare() {
+	if !c.IsLogin {
+		c.Ctx.Redirect(302, c.LoginPath())
+		return
+	}
 }
+
+// func (c *UsersController) NestFinish() {}
+
+func (c *UserController) Index() {
+	beego.ReadFromRequest(&c.Controller)
+
+	c.TplName = "users/index.tpl"
+}
+
 
 /*
     login action

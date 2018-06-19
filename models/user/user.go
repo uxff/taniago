@@ -15,6 +15,9 @@ type UserEntity struct {
 
 	LastLoginTime time.Time
 	LastLoginIp   string
+
+	IsEmailActive bool
+	IsPhoneActive bool
 }
 
 
