@@ -70,6 +70,3 @@ func main() {
 	beego.Run()
 }
 
-// todo:
-// search local db
-
