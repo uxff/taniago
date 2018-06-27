@@ -3,11 +3,11 @@ donelist:
 - paysapi
 - static fs of dir
 - page of picset
+- login/register (beego example)
 
 todolist:
 - tools
 - multi domain
-- login/register
 - pay and notify
 - advertise
 - shopping mall
@@ -15,6 +15,7 @@ todolist:
 - ethereum pay
 - fake order
 - friendly link(difficult)
+- international
 - tools - md5
 - tools - base64
 - tools - urlencode/urldecode
