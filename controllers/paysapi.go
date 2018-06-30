@@ -20,9 +20,10 @@ func (this *PaysapiController) Payment() {
 	this.TplName = "paysapi/payment.html"
 
 	//this.GetString()
+	appDomain := beego.AppConfig.String("appdomain")
 
-	paysapi.SetNotifyUrl("http://a.guangxigirl.xyz:8080"+beego.URLFor("PaysapiController.Notify"))
-	paysapi.SetReturnUrl("http://a.guangxigirl.xyz:8080"+beego.URLFor("PaysapiController.PaymentStatus"))
+	paysapi.SetNotifyUrl("http://"+appDomain+beego.URLFor("PaysapiController.Notify"))
+	paysapi.SetReturnUrl("http://"+appDomain+beego.URLFor("PaysapiController.PaymentStatus"))
 
 	logs.Info("uid=%s token=%v", beego.AppConfig.DefaultString("paysapi_uid", ""), beego.AppConfig.DefaultString("paysapi_token", ""))
 	paysapi.SetPaysapi(beego.AppConfig.DefaultString("paysapi_uid", ""), beego.AppConfig.DefaultString("paysapi_token", ""))
