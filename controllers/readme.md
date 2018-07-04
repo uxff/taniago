@@ -15,6 +15,7 @@ todolist:
 - ethereum pay
 - fake order
 - friendly link(difficult)
+- page of navigator
 - international
 - tools - md5
 - tools - base64
