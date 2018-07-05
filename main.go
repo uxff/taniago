@@ -50,6 +50,8 @@ func genBackBtn(currentpath string) (out template.HTML) {
 func main() {
 	logdeep := 3
 	serveDir := "r:/themedia" //"."
+
+	navDir := "./nav_ecy"
 	flag.IntVar(&logdeep, "logdeep", logdeep, "log deep")
 	flag.StringVar(&serveDir, "dir", serveDir, "serve dir, witch will browse")
 	flag.Parse()
@@ -58,7 +60,10 @@ func main() {
 	beego.AddFuncMap("genBackBtn", genBackBtn)
 	beego.AddFuncMap("genLink", genLink)
 	beego.AddFuncMap("converTime", converTime)
+
 	beego.SetStaticPath("fs", serveDir)
+	beego.SetStaticPath("nav", navDir)
+
 	logs.SetLevel(logs.LevelInfo)
 	logs.SetLogFuncCallDepth(logdeep)
 
