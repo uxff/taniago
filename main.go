@@ -64,6 +64,7 @@ func main() {
 	beego.SetStaticPath("fs", serveDir)
 	beego.SetStaticPath("nav", navDir)
 
+
 	logs.SetLevel(logs.LevelInfo)
 	logs.SetLogFuncCallDepth(logdeep)
 

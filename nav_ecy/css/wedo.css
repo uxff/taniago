@@ -19,10 +19,10 @@ img{border: 0;}
 .clearfix {*zoom:1;}
 
 /* top */
-#top{ width:auto;height:500px;}
+#top{ width:auto;height:220px;}
 #top .kuandu{width:1003px;margin:0px auto;}
-#top .logo{ width:290px; height:82px;position:relative; top:250px;}
-#top .search{ margin:300px 0px 0px 0px;}
+#top .logo{ width:360px; height:52px;position:relative; top:20px;}
+#top .search{ margin:0px 0px 0px 60px;}
 input[type="text"]{border-radius:4px;border:1px solid #ccc; height:33px; width:300px;}
 input[class="baidu"]{border-radius:4px;border:none; height:35px; width:70px; margin:0px 8px 0px 8px; text-align:center; background:#3385ff; color:#fff;}
 input[class="baidu"]:hover{background:#317ef3;cursor:pointer;}
