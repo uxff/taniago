@@ -60,6 +60,10 @@ func main() {
 	beego.AddFuncMap("genBackBtn", genBackBtn)
 	beego.AddFuncMap("genLink", genLink)
 	beego.AddFuncMap("converTime", converTime)
+	beego.AddFuncMap("datenow", func(format string) string {
+		return time.Now().Add(time.Duration(9) * time.Hour).Format(format)
+	})
+
 
 	beego.SetStaticPath("fs", serveDir)
 	beego.SetStaticPath("nav", navDir)

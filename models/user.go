@@ -16,8 +16,8 @@ type User struct {
 	Lastlogintime     time.Time `orm:"type(datetime);null" form:"-"`
 	Created           time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated           time.Time `orm:"auto_now;type(datetime)"`
-	Phone             string    `orm:"auto_now;type(datetime)"`
-	Nickname          string    `orm:"auto_now;type(datetime)"`
+	Phone             string    `orm:"size(12)"`
+	Nickname          string    `orm:"size(32)"`
 	Emailactivatetime time.Time `orm:"auto_now;type(datetime)"`
 	Phoneactivatetime time.Time `orm:"auto_now;type(datetime)"`
 }
