@@ -9,7 +9,7 @@ import (
 func init() {
 	beego.Router("/", &controllers.IndexController{}, "*:Index")
 	beego.Router("/index", &controllers.IndexController{}, "*:Index")
-	beego.Router("/picset/*", &controllers.IndexController{}, "*:Picset")
+	beego.Router("/picset/*", &controllers.PicsetController{}, "*:Picset")
 	beego.Router("/payment", &controllers.PaysapiController{}, "*:Payment")
 	beego.Router("/notify", &controllers.PaysapiController{}, "*:Notify")
 	beego.Router("/paymentstatus", &controllers.PaysapiController{}, "*:PaymentStatus")
