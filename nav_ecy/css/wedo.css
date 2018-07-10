@@ -41,13 +41,14 @@ input[class="haosou"]:hover{ background:#1ac550;cursor:pointer;}
 /* category_文字 */
 .nav_list{padding-bottom: 10px;width:1003px; margin:0 auto;position: relative;top: -50px;border-radius:4px;opacity:0.80;border: 1px solid #dedede; margin-top:12px; background:#FFFFFF;/*-moz-box-shadow: 0 0 8px #666;-webkit-box-shadow: 0 0 8px #666;*/}
 .nav_list .text{border-radius:4px; padding:2px 10px 3px; color:#FFFFFF;}
-.yellow{background:#EDBD14;}/*黄色*/
+.yellow{background:#f3ca3b;}/*黄色*/
 .red{background:#FF0000;}/*红色*/
 .Black{background:#000000;}/*黑色*/
 .green{background:#10A821 !important;}/*绿色*/
 .purple{background:#FF00F5;}/*紫色*/
 .blue{background:#005CFF;}/*蓝色*/
 .gray{background:#ccc;}/*灰色*/
+.orange{background:#f54b20;}/*灰色*/
 .hr_solid{width: 960px;height: 10px;*line-height:0px;margin: 0px 10px 0 10px;}
 .hr_solid_no{border-bottom:none !important;}
 .category {position: relative;width: 1000px;height: 34px;line-height: 34px;}
