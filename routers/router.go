@@ -1,9 +1,10 @@
 package routers
 
 import (
-	"github.com/uxff/taniago/controllers"
 
 	"github.com/astaxie/beego"
+
+	"github.com/uxff/taniago/controllers"
 )
 
 func init() {
