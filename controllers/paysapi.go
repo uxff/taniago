@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/astaxie/beego"
-	"github.com/uxff/taniago/models/paysapi"
 	"github.com/astaxie/beego/logs"
+	"github.com/uxff/taniago/models/paysapi"
 )
 
 type PaysapiController struct {

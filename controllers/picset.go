@@ -19,9 +19,9 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego"
-	"github.com/uxff/taniago/utils/paginator"
 	"github.com/astaxie/beego/logs"
 	"github.com/buger/jsonparser"
+	"github.com/uxff/taniago/utils/paginator"
 )
 
 type Picset struct {
@@ -53,6 +53,13 @@ func init() {
 }
 
 
+// clear cache
+func (this *PicsetController) ClearCache() {
+	dirCache = make(map[string][]*Picset, 0)
+	logs.Debug("dir cache cleared")
+	this.Ctx.Redirect(302, this.URLFor("PicsetController.Picset"))
+}
+
 // picset list
 func (this *PicsetController) Picset() {
 
@@ -60,12 +67,6 @@ func (this *PicsetController) Picset() {
 
 	//
 	fullDirName := this.Ctx.Input.Param(":splat")
-	c := this.GetString("c")
-	switch c {
-	case "clearcache":
-		dirCache = make(map[string][]*Picset, 0)
-		logs.Debug("dir cache cleared")
-	}
 
 	//logs.Info("fullDirName from param=%v", fullDirName)
 

@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/uxff/taniago/models"
 	"github.com/astaxie/beego"
+	"github.com/uxff/taniago/models"
 )
 
 type BaseController struct {

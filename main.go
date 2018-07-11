@@ -2,15 +2,15 @@ package main
 
 import (
 
+	"flag"
 	"time"
 	"html/template"
 	"os"
 	"path/filepath"
-	"flag"
 
-	_ "github.com/uxff/taniago/routers"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
+	_ "github.com/uxff/taniago/routers"
 	"github.com/uxff/taniago/controllers"
 )
 
