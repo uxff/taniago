@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/astaxie/beego"
-	_ "github.com/uxff/beego-samples/auth/conf/inits"
-	_ "github.com/uxff/beego-samples/auth/routers"
+	_ "github.com/uxff/taniago/conf/inits"
+	_ "github.com/uxff/taniago/routers"
 	"flag"
 	"github.com/astaxie/beego/logs"
-	"github.com/uxff/beego-samples/auth/controllers"
+	"github.com/uxff/taniago/controllers"
 )
 
 func main() {

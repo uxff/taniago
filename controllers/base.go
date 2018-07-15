@@ -5,7 +5,7 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/ikeikeikeike/gopkg/convert"
-	"github.com/uxff/beego-samples/auth/models"
+	"github.com/uxff/taniago/models"
 	"github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/utils/captcha"
 )

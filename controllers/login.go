@@ -6,8 +6,8 @@ import (
 
 	"github.com/astaxie/beego"
 
-	"github.com/uxff/beego-samples/auth/lib"
-	"github.com/uxff/beego-samples/auth/models"
+	"github.com/uxff/taniago/lib"
+	"github.com/uxff/taniago/models"
 )
 
 type LoginController struct {
