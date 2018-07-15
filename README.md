@@ -9,3 +9,6 @@ cd taniago
 go build main.go
 ./main.exe
 ```
+
+branch upyun-admin-giveup will be given up.
+
