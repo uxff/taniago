@@ -1,14 +1,29 @@
-## start taniago
+# Requirement
+
 ```
-cd $GOPATH/src
-go get github.com/astaxie/beego
-go get github.com/beego/bee
-cd github.com/uxff
-git clone git@github.com:uxff/taniago.git
-cd taniago
-go build main.go
-./main.exe
+go get -u github.com/mattn/go-sqlite3
+go get -u github.com/beego/i18n
+go get -u github.com/mattn/go-runewidth
 ```
 
-branch upyun-admin-giveup will be given up.
+# How to Use
+
+```
+$ git clone git@github.com:uxff/beego-samples.git
+$ cd beego-samples/auth
+```
+
+need node and npm
+```
+npm install -g bower
+bower install
+```
+
+# How to Run
+
+```
+$ bee run
+```
+
+
 

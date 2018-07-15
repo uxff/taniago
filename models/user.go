@@ -9,17 +9,18 @@ import (
 )
 
 type User struct {
-	Id                int64
-	Email             string    `orm:"size(64);unique" form:"Email" valid:"Required;Email"`
-	Password          string    `orm:"size(32)" form:"Password" valid:"Required;MinSize(6)"`
-	Repassword        string    `orm:"-" form:"Repassword" valid:"Required"`
-	Lastlogintime     time.Time `orm:"type(datetime);null" form:"-"`
-	Created           time.Time `orm:"auto_now_add;type(datetime)"`
-	Updated           time.Time `orm:"auto_now;type(datetime)"`
-	Phone             string    `orm:"size(12)"`
-	Nickname          string    `orm:"size(32)"`
-	Emailactivatetime time.Time `orm:"auto_now;type(datetime)"`
-	Phoneactivatetime time.Time `orm:"auto_now;type(datetime)"`
+	Id            int64
+	Email         string    `orm:"size(64);unique" form:"Email" valid:"Required;Email"`
+	Password      string    `orm:"size(32)" form:"Password" valid:"Required;MinSize(6)"`
+	Repassword    string    `orm:"-" form:"Repassword" valid:"Required"`
+	Lastlogintime time.Time `orm:"type(datetime)" form:"-"`
+	Created       time.Time `orm:"auto_now_add;type(datetime)"`
+	Updated       time.Time `orm:"auto_now;type(datetime)"`
+	IsEmailActivated bool
+	EmailActivated time.Time `orm:"type(datetime)"`
+	Lastloginip string `orm:"size(16)"`
+	Phone string `orm:"size(16)"`
+	Nickname string `orm:"size(20)"`
 }
 
 func (u *User) Valid(v *validation.Validation) {

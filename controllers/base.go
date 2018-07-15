@@ -4,14 +4,32 @@ import (
 	"fmt"
 
 	"github.com/astaxie/beego"
-	"github.com/uxff/taniago/models"
+	"github.com/ikeikeikeike/gopkg/convert"
+	"github.com/uxff/beego-samples/auth/models"
+	"github.com/astaxie/beego/cache"
+	"github.com/astaxie/beego/utils/captcha"
 )
+
+// 初始化captcha
+var TheStore cache.Cache
+var TheCaptcha *captcha.Captcha
+
+func init() {
+	TheStore = cache.NewMemoryCache()
+	TheCaptcha = captcha.NewWithFilter("/captcha/", TheStore) //一定要写在构造函数里面，要不然第一次打开页面有可能是X
+	TheCaptcha.StdHeight = 40
+	TheCaptcha.StdWidth = 100
+	TheCaptcha.ChallengeNums = 4
+}
 
 type BaseController struct {
 	beego.Controller
 
-	Userinfo *models.User
-	IsLogin  bool
+	Userinfo   *models.User
+	IsLogin    bool
+
+	theStore   cache.Cache
+	theCaptcha *captcha.Captcha
 }
 
 type NestPreparer interface {
@@ -22,7 +40,7 @@ type NestFinisher interface {
 	NestFinish()
 }
 
-
+// every request will call this
 func (c *BaseController) Prepare() {
 	c.SetParams()
 
@@ -30,6 +48,8 @@ func (c *BaseController) Prepare() {
 	if c.IsLogin {
 		c.Userinfo = c.GetLogin()
 	}
+
+	c.Data["appname"] = beego.AppConfig.String("appname")
 
 	c.Data["IsLogin"] = c.IsLogin
 	c.Data["Userinfo"] = c.Userinfo
@@ -82,12 +102,6 @@ func (c *BaseController) BuildRequestUrl(uri string) string {
 	if uri == "" {
 		uri = c.Ctx.Input.URI()
 	}
-	return fmt.Sprintf("%s:%d%s",
-		c.Ctx.Input.Site(), c.Ctx.Input.Port(), uri)
+	return fmt.Sprintf("%s:%s%s",
+		c.Ctx.Input.Site(), convert.ToStr(c.Ctx.Input.Port()), uri)
 }
-
-
-func (this *BaseController) Captcha() {
-	
-}
-

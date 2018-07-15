@@ -2,14 +2,14 @@ package controllers
 
 import (
 	"html/template"
+	"time"
 
 	"github.com/astaxie/beego"
 
-	"github.com/uxff/taniago/lib"
-	"github.com/uxff/taniago/models"
+	"github.com/uxff/beego-samples/auth/lib"
+	"github.com/uxff/beego-samples/auth/models"
 )
 
-// refer :github.com/ikeikeikeike/beego-samples
 type LoginController struct {
 	BaseController
 }
@@ -29,6 +29,13 @@ func (c *LoginController) Login() {
 	}
 
 	flash := beego.NewFlash()
+
+	if !TheCaptcha.VerifyReq(c.Ctx.Request) {
+		flash.Warning("验证码错误")
+		flash.Store(&c.Controller)
+		return
+	}
+
 	email := c.GetString("Email")
 	password := c.GetString("Password")
 
@@ -67,6 +74,12 @@ func (c *LoginController) Signup() {
 	var err error
 	flash := beego.NewFlash()
 
+	if !TheCaptcha.VerifyReq(c.Ctx.Request) {
+		flash.Warning("验证码错误")
+		flash.Store(&c.Controller)
+		return
+	}
+
 	u := &models.User{}
 	if err = c.ParseForm(u); err != nil {
 		flash.Error("Signup invalid!")
@@ -79,6 +92,8 @@ func (c *LoginController) Signup() {
 		return
 	}
 
+	u.Lastlogintime = time.Unix(0, 0)
+	u.EmailActivated = time.Time{}
 	id, err := lib.SignupUser(u)
 	if err != nil || id < 1 {
 		flash.Warning(err.Error())
