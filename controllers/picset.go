@@ -53,6 +53,10 @@ func init() {
 }
 
 
+func (this *PicsetController) Index() {
+	this.TplName = "index/index.tpl"
+}
+
 // picset list
 func (this *PicsetController) Picset() {
 
