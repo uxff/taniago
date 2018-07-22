@@ -16,7 +16,7 @@
                         <div class="col-sm-6 col-md-3">
                             <div class="thumbnail" style="height: 300px">
                                 <a href="{{$aname.Url}}">
-                                    <img src="{{$aname.Thumb}}" alt="封面图">
+                                    <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}">
                                 </a>
                                 <div class="caption">
                                     <p style="text-align:center;">{{$aname.Name}}</p>

@@ -1,12 +1,14 @@
 package main
 
 import (
+	"flag"
+
 	"github.com/astaxie/beego"
 	_ "github.com/uxff/taniago/conf/inits"
 	_ "github.com/uxff/taniago/routers"
-	"flag"
 	"github.com/astaxie/beego/logs"
 	"github.com/uxff/taniago/controllers"
+	"github.com/uxff/taniago/models"
 )
 
 func main() {
@@ -23,6 +25,7 @@ func main() {
 	beego.SetStaticPath("fs", serveDir)
 
 	controllers.SetLocalDirRoot(serveDir)
+	models.LoadFriendLinksFromFile("./conf/friends.json")
 
 	logs.Info("the serve dir=%s", serveDir)
 
