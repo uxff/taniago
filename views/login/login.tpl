@@ -10,7 +10,7 @@
 			 	</div> 
 
 			  	<div class="panel-body">
-			    	<form accept-charset="utf-8" role="form" class="form-horizontal" method="POST" action='{{urlfor "LoginController.Login"}}'>
+			    	<form accept-charset="utf-8" role="form" class="form-horizontal" method="POST" action='{{urlfor "UsersController.Login"}}'>
                       {{ .xsrfdata }}
 
                       {{template "alert.tpl" .}}
@@ -39,7 +39,7 @@
                       <div class="form-group text-center">
                         <div class="col-sm-12">
 			    		  <input class="btn btn-lg btn-success btn-block" type="submit" value="登录">
-                            <a href="{{urlfor "LoginController.PasswordReset"}}">
+                            <a href="{{urlfor "UsersController.PasswordReset"}}">
                                 忘记秘钥，请点击此处 »
                             </a>
 
@@ -48,7 +48,7 @@
                     </form>
 			    </div>
 
-                <div class="panel-footer text-center clearfix">没有账户 <a href='{{urlfor "LoginController.Signup"}}'>注册 »</a></div>
+                <div class="panel-footer text-center clearfix">没有账户 <a href='{{urlfor "UsersController.Signup"}}'>注册 »</a></div>
 
 			</div>
 		</div>

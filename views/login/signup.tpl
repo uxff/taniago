@@ -10,7 +10,7 @@
 			 	</div> 
 
 			  	<div class="panel-body">
-			    	<form accept-charset="utf-8" role="form" class="form-horizontal" method="POST" action='{{urlfor "LoginController.Signup"}}'>
+			    	<form accept-charset="utf-8" role="form" class="form-horizontal" method="POST" action='{{urlfor "UsersController.Signup"}}'>
                       {{ .xsrfdata }}
 
                       {{template "alert.tpl" .}}
@@ -39,7 +39,7 @@
                       {{create_captcha}}
                       </div>
                       <div class="form-group text-center">
-                          <lable for="isCheckedProtocol"><input type="checkbox" id="isCheckedProtocol"/>我同意<a href="javascript:;">注册协议</a></lable>
+                          <label for="isCheckedProtocol"><input type="checkbox" id="isCheckedProtocol"/>我同意<a href="javascript:;">注册协议</a></label>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-12">
@@ -49,7 +49,7 @@
                     </form>
 			    </div>
 
-                <div class="panel-footer text-center clearfix">如果您已有账号 <a href='{{urlfor "LoginController.Login"}}'>登录 »</a></div>
+                <div class="panel-footer text-center clearfix">如果您已有账号 <a href='{{urlfor "UsersController.Login"}}'>登录 »</a></div>
 
 			</div>
 		</div>

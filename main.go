@@ -19,7 +19,7 @@ func main() {
 	flag.StringVar(&serveDir, "dir", serveDir, "serve dir, witch will browse")
 	flag.Parse()
 
-	logs.SetLevel(logs.LevelInfo)
+	logs.SetLevel(logs.LevelDebug)
 	logs.SetLogFuncCallDepth(logdeep)
 
 	beego.SetStaticPath("fs", serveDir)

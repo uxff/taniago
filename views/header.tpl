@@ -14,7 +14,7 @@
 
     <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" style="height: 1px;">
       <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav">
-        <li itemprop="name"><a itemprop="url" href='{{urlfor "admin.UsersController.Index"}}'>
+        <li itemprop="name"><a itemprop="url" href='{{urlfor "UsersController.Index"}}'>
           <span class="glyphicon glyphicon-facetime-video">A</span>
         </a></li>
         <li itemprop="name"><a itemprop="url" href="">
@@ -43,11 +43,11 @@
           </a>
           <ul itemprop="name" class="dropdown-menu">
             {{if .IsLogin}}
-                <li itemprop="name" ><a itemprop="url" href='{{urlfor "LoginController.Logout"}}'>
+                <li itemprop="name" ><a itemprop="url" href='{{urlfor "UsersController.Logout"}}'>
                   <span class='glyphicon glyphicon-log-out'></span> 退出
                 </a></li>
             {{else}}
-                <li itemprop="name" ><a itemprop="url" href='{{urlfor "LoginController.Login"}}'>
+                <li itemprop="name" ><a itemprop="url" href='{{urlfor "UsersController.Login"}}'>
                   <span class='glyphicon glyphicon-globe'></span> 登录
                 </a></li>
             {{end}}

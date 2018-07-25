@@ -88,7 +88,7 @@ func (c *BaseController) SetLogin(user *models.User) {
 }
 
 func (c *BaseController) LoginPath() string {
-	return c.URLFor("LoginController.Login")
+	return c.URLFor("UsersController.Login")
 }
 
 func (c *BaseController) SetParams() {

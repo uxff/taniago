@@ -30,6 +30,7 @@ func (u *User) Valid(v *validation.Validation) {
 }
 
 func (m *User) Insert() error {
+	m.EmailActivated = time.Unix(0, 1)
 	if _, err := orm.NewOrm().Insert(m); err != nil {
 		return err
 	}
