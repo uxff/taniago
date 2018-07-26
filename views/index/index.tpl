@@ -19,12 +19,22 @@
             <a href="#" class="btn" role="button">Site F</a>
         </div>
 
+
         {{range $blockName, $lister := .thelinks}}
-            <a href="javascript:;" class="btn" role="button">{{$blockName}}</a>
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                {{range $k, $site := $lister}}
-                <a href="{{$site.Url}}" class="btn btn-default" role="button">{{$site.Name}}</a>
-                {{end}}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{$blockName}}</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row clearfix">
+                    {{range $k, $site := $lister}}
+                        <div class="col-md-3">
+                            <a href="{{$site.Url}}" target="_blank">{{$site.Name}}</a>
+                        </div>
+                    {{end}}
+                    </div>
+                </div>
             </div>
 
         {{end}}
