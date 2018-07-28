@@ -8,19 +8,32 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
-type FriendLinks map[string][]struct{
+type FriendLinks []struct{
+	Name string `json:"name"`
+	Links[]struct{
 		Name string `json:"name"`
 		Url  string `json:"url"`
-	}
+	}	`json:"links"`
+}
 
 
 var theLinks FriendLinks
+var theLinksPath string
 
-func GetFriendLinks() *FriendLinks {
-	return &theLinks
+func GetFriendLinks() FriendLinks {
+	return theLinks
 }
 
-func LoadFriendLinksFromFile(f string) *FriendLinks {
+func SetLinksPath(p string) {
+	theLinksPath = p
+	//LoadFriendLinksFromFile(theLinksPath)
+}
+
+func LoadFriendLinks() FriendLinks {
+	return LoadFriendLinksFromFile(theLinksPath)
+}
+
+func LoadFriendLinksFromFile(f string) FriendLinks {
 	fhandle, err := os.Open(f)
 	if err != nil {
 		logs.Error("load friend links from %s error:%v", f, err)
@@ -43,7 +56,7 @@ func LoadFriendLinksFromFile(f string) *FriendLinks {
 
 	logs.Info("load friend links from file %s ok", f)
 
-	return &theLinks
+	return theLinks
 }
 
 

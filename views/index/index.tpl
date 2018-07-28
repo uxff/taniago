@@ -3,32 +3,28 @@
 
 
 <div class="container">
-    <div class="row vertical-offset-75">
+    <div class="row">
 
     {{template "alert.tpl" .}}
-
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a href="#" class="btn btn-default" role="button">Site A</a>
-            <a href="#" class="btn btn-default" role="button">Site A</a>
-            <a href="#" class="btn btn-default" role="button">Site A</a>
+            <a href="javascript:;" class="btn btn-default" role="button">广告位招商 A</a>
+            <a href="javascript:;" class="btn btn-default" role="button">广告位招商 B</a>
+            <a href="javascript:;" class="btn btn-default" role="button">广告位招商 C</a>
         </div>
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a href="#" class="btn" role="button">Site C</a>
-            <a href="#" class="btn" role="button">Site D</a>
-            <a href="#" class="btn" role="button">Site E</a>
-            <a href="#" class="btn" role="button">Site F</a>
-        </div>
+        <p></p>
+    </div>
 
+    <div class="row">
 
-        {{range $blockName, $lister := .thelinks}}
-            <div class="panel panel-info">
+        {{range $gi, $lister := .thelinks}}
+            <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{$blockName}}</h3>
+                    <h3 class="panel-title">{{$lister.Name}}</h3>
                 </div>
                 <div class="panel-body">
 
                     <div class="row clearfix">
-                    {{range $k, $site := $lister}}
+                    {{range $k, $site := $lister.Links}}
                         <div class="col-md-3">
                             <a href="{{$site.Url}}" target="_blank">{{$site.Name}}</a>
                         </div>
