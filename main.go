@@ -26,7 +26,7 @@ func main() {
 
 	controllers.SetLocalDirRoot(serveDir)
 	//models.LoadFriendLinksFromFile("./conf/friends.json")
-	models.SetLinksPath("./conf/friends.json")
+	models.SetLinksPath("./conf/index.json")
 
 	logs.Info("the serve dir=%s", serveDir)
 

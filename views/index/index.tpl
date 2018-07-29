@@ -3,7 +3,7 @@
 
 
 <div class="container">
-    <div class="row">
+    <div class="row" style="display: none">
 
     {{template "alert.tpl" .}}
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
