@@ -3,7 +3,7 @@
     <div class="clearfix">
       <div class="footer-logo">
         <a href="/">
-          <img src=""><small style='font-size: 65%;'>Channel</small>
+          <img src=""><small style='font-size: 65%;'>{{.appname}}</small>
         </a>
       </div>
       <dl class="footer-nav">
@@ -24,7 +24,7 @@
 
         <dd class="nav-item">
           <a href="#">
-            <span class='glyphicon glyphicon-info-sign'></span> 
+            <span class='glyphicon glyphicon-info-sign'> </span>
           </a>
         </dd>
 
@@ -52,7 +52,7 @@
 
     <div class="footer-copyright text-center">
       Copyright <span class="glyphicon glyphicon-copyright-mark"></span>
-      2014-{{datenow "2006"}} <strong>Channel</strong>
+      2014-{{datenow "2006"}} <strong>{{.appname}}</strong>
       All rights reserved.
     </div>
 
