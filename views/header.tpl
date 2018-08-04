@@ -1,5 +1,6 @@
 <header id="topbar" class="navbar navbar-default navbar-fixed-top bs-docs-nav" role="banner">
   <div class="container">
+    <div class="row">
     <div class="navbar-header">
       <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
         <span class="sr-only">导航</span>
@@ -12,14 +13,14 @@
       </a>
     </div>
 
-    <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" >
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" >
       <ul class="nav navbar-nav">
         <li><a href='{{urlfor "UsersController.Index"}}'>
-          <span class="glyphicon glyphicon-home"> {{.appname}}</span>
+          <span class="glyphicon glyphicon-home"></span> {{.appname}}
         </a></li>
         <li>
             <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
-          <span class="glyphicon glyphicon-picture"> Picset</span> <b class="caret"></b>
+          <span class="glyphicon glyphicon-picture"></span> Picset <b class="caret"></b>
         </a>
             <ul class="dropdown-menu">
                 <li role="presentation" class="dropdown-header">main route</li>
@@ -54,6 +55,7 @@
         </li>
       </ul>
     </nav>
+    </div>
   </div>
 
 </header>
