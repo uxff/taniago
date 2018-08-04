@@ -57,6 +57,8 @@ func (c *BaseController) Prepare() {
 	c.Data["HeadStyles"] = []string{}
 	c.Data["HeadScripts"] = []string{}
 
+	c.Data["friendlyLinks"] = models.LoadFriendlyLinks()
+
 	c.Layout = "base.tpl"
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["BaseHeader"] = "header.tpl"

@@ -8,35 +8,51 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
-type FriendLinks []struct{
+type Link struct{
 	Name string `json:"name"`
-	Links[]struct{
-		Name string `json:"name"`
-		Url  string `json:"url"`
-	}	`json:"links"`
+	Url  string `json:"url"`
 }
 
+type IndexLinks []struct{
+	Name string `json:"name"`
+	Links []Link	`json:"links"`
+}
 
-var theLinks FriendLinks
-var theLinksPath string
+type FriendlyLinks []Link
 
-func GetFriendLinks() FriendLinks {
-	return theLinks
+var
+(
+	// index links
+	theIndexLinks IndexLinks
+
+	// index links path
+	theIndexLinksPath string
+
+	// friendly links
+	theFriendlyLinks FriendlyLinks
+
+	// friendly links path
+	theFriendlyLinksPath string
+)
+
+
+func GetIndexLinks() IndexLinks {
+	return theIndexLinks
 }
 
 func SetLinksPath(p string) {
-	theLinksPath = p
-	//LoadFriendLinksFromFile(theLinksPath)
+	theIndexLinksPath = p
+	//LoadIndexLinksFromFile(theLinksPath)
 }
 
-func LoadFriendLinks() FriendLinks {
-	return LoadFriendLinksFromFile(theLinksPath)
+func LoadIndexLinks() IndexLinks {
+	return LoadIndexLinksFromFile(theIndexLinksPath)
 }
 
-func LoadFriendLinksFromFile(f string) FriendLinks {
+func LoadIndexLinksFromFile(f string) IndexLinks {
 	fhandle, err := os.Open(f)
 	if err != nil {
-		logs.Error("load friend links from %s error:%v", f, err)
+		logs.Error("load index links from %s error:%v", f, err)
 		return nil
 	}
 
@@ -44,19 +60,56 @@ func LoadFriendLinksFromFile(f string) FriendLinks {
 
 	content, err := ioutil.ReadAll(fhandle)
 	if err != nil {
-		logs.Error("load friend links from %s error:%v", f, err)
+		logs.Error("load index links from %s error:%v", f, err)
 		return nil
 	}
 
-	err = json.Unmarshal(content, &theLinks)
+	err = json.Unmarshal(content, &theIndexLinks)
 	if err != nil {
-		logs.Error("load friend links from %s error:%v", f, err)
+		logs.Error("load index links from %s error:%v", f, err)
 		return nil
 	}
 
-	logs.Info("load friend links from file %s ok", f)
+	logs.Info("load index links from file %s ok", f)
 
-	return theLinks
+	return theIndexLinks
 }
 
+func GetFriendlyLinks() FriendlyLinks {
+	return theFriendlyLinks
+}
+
+func SetFriendlyLinksPath(p string) {
+	theFriendlyLinksPath = p
+}
+
+func LoadFriendlyLinks() FriendlyLinks {
+	return LoadFriendlyLinksFromFile(theFriendlyLinksPath)
+}
+
+func LoadFriendlyLinksFromFile(f string) FriendlyLinks {
+	fhandle, err := os.Open(f)
+	if err != nil {
+		logs.Error("load friendly links from %s error:%v", f, err)
+		return nil
+	}
+
+	defer fhandle.Close()
+
+	content, err := ioutil.ReadAll(fhandle)
+	if err != nil {
+		logs.Error("load friendly links from %s error:%v", f, err)
+		return nil
+	}
+
+	err = json.Unmarshal(content, &theFriendlyLinks)
+	if err != nil {
+		logs.Error("load friendly links from %s error:%v", f, err)
+		return nil
+	}
+
+	logs.Info("load friendly links from file %s ok", f)
+
+	return theFriendlyLinks
+}
 

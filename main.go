@@ -25,8 +25,10 @@ func main() {
 	beego.SetStaticPath("fs", serveDir)
 
 	controllers.SetLocalDirRoot(serveDir)
-	//models.LoadFriendLinksFromFile("./conf/friends.json")
+	//models.LoadIndexLinksFromFile("./conf/friends.json")
 	models.SetLinksPath("./conf/index.json")
+	models.SetFriendlyLinksPath("./conf/friends.json")
+	//models.LoadFriendlyLinks()
 
 	logs.Info("the serve dir=%s", serveDir)
 

@@ -10,7 +10,7 @@ type IndexController struct {
 
 func (this *IndexController) Index() {
 
-	theLinks := models.LoadFriendLinks()
+	theLinks := models.LoadIndexLinks()
 
 	this.Data["thelinks"] = theLinks
 

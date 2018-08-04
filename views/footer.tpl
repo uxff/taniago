@@ -51,6 +51,12 @@
     </div>
 
     <div class="footer-copyright text-center">
+      友情链接:
+      {{range $k, $link := .friendlyLinks}}
+          <a href="{{$link.Url}}" target="_blank">{{$link.Name}}</a> &nbsp;
+      {{end}}
+    </div>
+    <div class="footer-copyright text-center">
       Copyright <span class="glyphicon glyphicon-copyright-mark"></span>
       2014-{{datenow "2006"}} <strong>{{.appname}}</strong>
       All rights reserved.
