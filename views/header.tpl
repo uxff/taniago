@@ -12,13 +12,13 @@
       </a>
     </div>
 
-    <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" style="height: 1px;">
-      <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav">
-        <li itemprop="name"><a itemprop="url" href='{{urlfor "UsersController.Index"}}'>
+    <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" >
+      <ul class="nav navbar-nav">
+        <li><a href='{{urlfor "UsersController.Index"}}'>
           <span class="glyphicon glyphicon-home"> {{.appname}}</span>
         </a></li>
-        <li itemprop="name">
-            <a itemprop="url" href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
+        <li>
+            <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
           <span class="glyphicon glyphicon-picture"> Picset</span> <b class="caret"></b>
         </a>
             <ul class="dropdown-menu">
@@ -32,21 +32,21 @@
         </li>
       </ul>
 
-      <ul itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" role="button" class="dropdown-toggle" data-hover="dropdown">
+          <a href="javascript:;" role="button" class="dropdown-toggle" data-hover="dropdown">
             <span class='glyphicon glyphicon-info-sign'></span> Account <b class="caret"></b>
           </a>
-          <ul itemprop="name" class="dropdown-menu">
+          <ul class="dropdown-menu">
             {{if .IsLogin}}
-                <li itemprop="name" ><a itemprop="url" href='{{urlfor "UsersController.Logout"}}'>
+                <li ><a href='{{urlfor "UsersController.Logout"}}'>
                   <span class='glyphicon glyphicon-log-out'></span> Logout
                 </a></li>
             {{else}}
-                <li itemprop="name" ><a itemprop="url" href='{{urlfor "UsersController.Login"}}'>
+                <li ><a href='{{urlfor "UsersController.Login"}}'>
                   <span class='glyphicon glyphicon-log-in'></span> Login
                 </a></li>
-                <li itemprop="name" ><a itemprop="url" href='{{urlfor "UsersController.Signup"}}'>
+                <li ><a href='{{urlfor "UsersController.Signup"}}'>
                     <span class='glyphicon glyphicon-check'></span> Sign Up
                 </a></li>
             {{end}}
