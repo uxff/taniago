@@ -8,6 +8,8 @@ import (
 	"github.com/uxff/taniago/models"
 	"github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/utils/captcha"
+	"time"
+	"math/rand"
 )
 
 // 初始化captcha
@@ -57,7 +59,9 @@ func (c *BaseController) Prepare() {
 	c.Data["HeadStyles"] = []string{}
 	c.Data["HeadScripts"] = []string{}
 
-	c.Data["friendlyLinks"] = models.LoadFriendlyLinks()
+	friendlinks :=  models.LoadFriendlyLinks()
+
+	c.Data["friendlyLinks"] = ShuffleLinks(friendlinks)
 
 	c.Layout = "base.tpl"
 	c.LayoutSections = make(map[string]string)
@@ -106,4 +110,25 @@ func (c *BaseController) BuildRequestUrl(uri string) string {
 	}
 	return fmt.Sprintf("%s:%s%s",
 		c.Ctx.Input.Site(), convert.ToStr(c.Ctx.Input.Port()), uri)
+}
+
+func ShuffleLinks(links models.FriendlyLinks) models.FriendlyLinks {
+	thelen := len(links)
+	targetLinks := make(models.FriendlyLinks, 0, thelen)
+	roundNum := time.Now().Unix()%2
+	roundStart := rand.Int()%thelen
+
+	if roundNum == 1 {
+		// 正序
+		for i := 0; i<thelen; i++ {
+			targetLinks = append(targetLinks, links[(i+roundStart)%thelen])
+		}
+	} else {
+		// 倒叙
+		for i := 0; i<thelen; i++ {
+			targetLinks = append(targetLinks, links[(-i+roundStart+thelen)%thelen])
+		}
+	}
+
+	return targetLinks
 }
