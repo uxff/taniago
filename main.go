@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-
 	"github.com/astaxie/beego"
 	_ "github.com/uxff/taniago/conf/inits"
 	_ "github.com/uxff/taniago/routers"
@@ -14,9 +13,11 @@ import (
 func main() {
 	logdeep := 3
 	serveDir := "r:/themedia" //"."
+	addr := ":"+ beego.AppConfig.String("httpport")
 
 	flag.IntVar(&logdeep, "logdeep", logdeep, "log deep")
 	flag.StringVar(&serveDir, "dir", serveDir, "serve dir, witch will browse")
+	flag.StringVar(&addr, "addr", addr, "beego run param addr, format as ip:port")
 	flag.Parse()
 
 	logs.SetLevel(logs.LevelDebug)
@@ -32,5 +33,5 @@ func main() {
 
 	logs.Info("the serve dir=%s", serveDir)
 
-	beego.Run()
+	beego.Run(addr)
 }

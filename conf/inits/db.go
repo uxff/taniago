@@ -28,7 +28,7 @@ func init() {
 		orm.RegisterDataBase(dbname, "mysql", datasource, 30)
 	}
 
-	orm.DefaultTimeLoc = time.FixedZone("Asia/Shanghai", 9*60*60)
+	orm.DefaultTimeLoc = time.FixedZone("Asia/Shanghai", 8*60*60)
 
 	force, verbose := false, true
 	err := orm.RunSyncdb(dbname, force, verbose)
