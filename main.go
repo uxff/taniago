@@ -15,7 +15,7 @@ func main() {
 	serveDir := "r:/themedia" //"."
 	addr := ":"+ beego.AppConfig.String("httpport")
 
-	flag.IntVar(&logdeep, "logdeep", logdeep, "log deep")
+	//flag.IntVar(&logdeep, "logdeep", logdeep, "log deep")
 	flag.StringVar(&serveDir, "dir", serveDir, "serve dir, witch will browse")
 	flag.StringVar(&addr, "addr", addr, "beego run param addr, format as ip:port")
 	flag.Parse()
@@ -27,11 +27,13 @@ func main() {
 
 	controllers.SetLocalDirRoot(serveDir)
 	//models.LoadIndexLinksFromFile("./conf/friends.json")
-	models.SetLinksPath("./conf/index.json")
-	models.SetFriendlyLinksPath("./conf/friends.json")
-	//models.LoadFriendlyLinks()
 
-	logs.Info("the serve dir=%s", serveDir)
+	models.SetLinksPath("./conf/index.json")
+	models.LoadIndexLinks()
+	models.SetFriendlyLinksPath("./conf/friends.json")
+	models.LoadFriendlyLinks()
+
+	logs.Info("beego server will run. dir=%s addr=%s", serveDir, addr)
 
 	beego.Run(addr)
 }
