@@ -9,14 +9,14 @@
         <span class="icon-bar"></span>
       </button>
       <a style="font-size: 14px;" class="navbar-brand" rel="home" href="/" >
-        <strong>Anonymous Navigator</strong>
+        <strong>{{.appname}}</strong>
       </a>
     </div>
 
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" >
       <ul class="nav navbar-nav">
-        <li><a href='{{urlfor "UsersController.Index"}}'>
-          <span class="glyphicon glyphicon-home"></span> {{.appname}}
+        <li><a href='{{urlfor "IndexController.Index"}}'>
+          <span class="glyphicon glyphicon-home"></span> Anonymous Navigator
         </a></li>
         <li>
             <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
