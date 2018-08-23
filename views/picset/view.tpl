@@ -14,7 +14,7 @@
                     <div class="row">
                     {{range $k, $aname := .thedirnames}}
                         <div class="col-sm-6 col-md-3">
-                            <div class="thumbnail" style="height: 300px">
+                            <div class="thumbnail" style="min-height: 320px">
                                 <a href="{{$aname.Url}}">
                                     <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}">
                                 </a>
