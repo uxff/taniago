@@ -155,11 +155,11 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 	}
 
 	dirCache[dirpath] = theDirList
-	logs.Info("path %s is loaded into cache", dirpath)
+	logs.Debug("path %s is loaded into cache", dirpath)
 
 	return theDirList
 }
 
 func ClearCache() {
-	dirCache = make([])
+	dirCache = make(map[string][]*Picset, 0)
 }

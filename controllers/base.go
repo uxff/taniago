@@ -59,7 +59,7 @@ func (c *BaseController) Prepare() {
 	c.Data["HeadStyles"] = []string{}
 	c.Data["HeadScripts"] = []string{}
 
-	friendlinks :=  models.LoadFriendlyLinks()
+	friendlinks := models.GetFriendlyLinks() // models.LoadFriendlyLinks()
 
 	c.Data["friendlyLinks"] = ShuffleLinks(friendlinks)
 

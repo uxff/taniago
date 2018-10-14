@@ -16,6 +16,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/uxff/taniago/utils/paginator"
 	"github.com/uxff/taniago/models/picset"
+	"github.com/astaxie/beego/logs"
 )
 
 type Picset struct {
@@ -94,5 +95,6 @@ func (this *PicsetController) Picset() {
 
 func (this *PicsetController) ClearCache() {
 	picset.ClearCache()
-	this.Finish()
+	logs.Debug("picset cache cleared")
+	this.EnableRender = false
 }
