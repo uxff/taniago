@@ -6,8 +6,8 @@ import (
 	_ "github.com/uxff/taniago/conf/inits"
 	_ "github.com/uxff/taniago/routers"
 	"github.com/astaxie/beego/logs"
-	"github.com/uxff/taniago/controllers"
 	"github.com/uxff/taniago/models"
+	"github.com/uxff/taniago/models/picset"
 )
 
 func main() {
@@ -24,8 +24,10 @@ func main() {
 	logs.SetLogFuncCallDepth(logdeep)
 
 	beego.SetStaticPath("fs", serveDir)
+	//beego.AppConfig.Set("", "")
 
-	controllers.SetLocalDirRoot(serveDir)
+	//controllers.SetLocalDirRoot(serveDir)
+	picset.SetLocalDirRoot(serveDir)
 	//models.LoadIndexLinksFromFile("./conf/friends.json")
 
 	models.SetLinksPath("./conf/index.json")
