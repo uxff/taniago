@@ -9,20 +9,27 @@ go get -u github.com/mattn/go-runewidth
 # How to Use
 
 ```
-$ git clone git@github.com:uxff/beego-samples.git
-$ cd beego-samples/auth
-```
+$ git clone git@github.com:uxff/taniago.git
+$ cd taniago
+#
+# need node and npm
+$ npm install -g bower
+$ bower install
+#
+# build
+$ go build
+#
+# you need start mysql service, and config mysql in:
+$ vim conf/app.conf
+# add line:
+# datasource=root:password@tcp(127.0.0.1:3306)/beegoauth?charset=utf8
 
-need node and npm
-```
-npm install -g bower
-bower install
 ```
 
 # How to Run
 
 ```
-$ bee run
+$ ./taniago --dir /data/your/exist/site/dir --addr :6699
 ```
 
 
