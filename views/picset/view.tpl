@@ -13,14 +13,14 @@
                 <div class="bootstrap-admin-panel-content span3 arch-warp" style="padding:15px">
                     <div class="row">
                     {{range $k, $aname := .thedirnames}}
-                        <div class="col-sm-6 col-md-3">
-                            <div class="thumbnail" style="min-height: 320px">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
                                 <a href="{{$aname.Url}}">
-                                    <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}">
+                                    <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}" style="height:100%;">
                                 </a>
-                                <div class="caption">
-                                    <p style="text-align:center;">{{$aname.Name}}</p>
-                                </div>
+                            </div>
+                            <div class="thumbnail-title">
+                                <p style="text-align:center;">{{$aname.Name}}</p>
                             </div>
                         </div>
                     {{end}}

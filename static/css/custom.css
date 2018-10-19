@@ -80,3 +80,14 @@ h1,h2,h3,h4,h5,h6,nav {
     float: right;
     content:"\e080";
 }
+
+.thumbnail {
+    margin-bottom: 3px;
+    height: 320px;
+}
+
+div .thumbnail-title {
+    margin-top: 3px;
+    height: 40px;
+}
+

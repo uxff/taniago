@@ -33,7 +33,7 @@ type CacheItem struct {
 
 var fsRoute = "/fs"
 var picsetRoute = "/picset"
-var pageSize = 8
+var pageSize = 20
 
 
 type PicsetController struct {
