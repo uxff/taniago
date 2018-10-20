@@ -115,27 +115,20 @@ func (c *BaseController) BuildRequestUrl(uri string) string {
 func ShuffleLinks(links models.FriendlyLinks) models.FriendlyLinks {
 	thelen := len(links)
 	targetLinks := make(models.FriendlyLinks, 0, thelen)
-	roundNum := int(time.Now().Unix()%10)
+	roundNum := time.Now().Unix()
 	roundStart := rand.Int()%thelen
 
-	if roundNum == 0 {
+	switch true {
+	case roundNum&1 == 0:
 		// 正序
 		for i := 0; i<thelen; i++ {
 			targetLinks = append(targetLinks, links[(i+roundStart)%thelen])
 		}
-	} else if roundNum == 1 {
+	case roundNum&1 == 1:
 		// 倒叙
 		for i := 0; i<thelen; i++ {
 			targetLinks = append(targetLinks, links[(-i+roundStart+thelen)%thelen])
 		}
-	} else {
-		// jump select
-		for i := 0; i<thelen; i++ {
-			pos := (roundStart+roundNum*i+len(links))%len(links)
-			targetLinks = append(targetLinks, links[pos])
-			links = append(links[:pos], links[pos+1:]...)
-		}
-
 	}
 
 	return targetLinks
