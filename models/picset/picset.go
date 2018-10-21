@@ -113,7 +113,7 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 
 		lName := strings.ToLower(fi.Name())
 		if fi.IsDir() {
-			if lName == "thumbs" {
+			if lName == "thumbs" || lName == "thumb" {
 				continue
 			}
 

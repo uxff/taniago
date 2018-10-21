@@ -33,9 +33,12 @@ $ ./taniago --dir /data/your/exist/site/dir --addr :6699
 ```
 
 
-# Describe require
+# Describe and specific requirement
 
-make picset sites, link each other.
+- make picset sites, link each other.
+- make payment, pay for dirpath.
+- save picset list to cache, to mysql.
+- [important] get a face from sub, if no thumb.
 
 
 
