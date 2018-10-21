@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/astaxie/beego/logs"
@@ -17,11 +17,6 @@ type Picset struct {
 	Name string
 	Thumb string
 	Url string
-}
-
-type CacheItem struct {
-	Created time.Time
-	PicsetList []*Picset
 }
 
 var localDirRoot = "./"
@@ -105,7 +100,7 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 	}
 
 
-	theDirList := make([]*Picset, 0)
+	theDirList := make(PicsetSlice, 0)
 	picIdx := 0
 	//allNum := len(dirHandle)
 
@@ -154,6 +149,8 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 
 	}
 
+	sort.Sort(theDirList)
+
 	dirCache[dirpath] = theDirList
 	logs.Debug("path %s is loaded into cache", dirpath)
 
@@ -162,4 +159,31 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 
 func ClearCache() {
 	dirCache = make(map[string][]*Picset, 0)
+}
+
+type PicsetSlice []*Picset
+
+func (ps PicsetSlice) Len() int {
+	return len(ps)
+}
+
+func (ps PicsetSlice) Swap(i, j int) {
+	ps[i], ps[j] = ps[j], ps[i]
+}
+
+// 对子目录排序
+func (ps PicsetSlice) Less(i, j int) bool {
+	
+	iName, jName := path.Base(ps[i].Dirpath), path.Base(ps[j].Dirpath)
+	if len(iName) > 0 && ('0' <= iName[0] && iName[0] <= '9') &&
+		len(jName) > 0 && ('0' <= jName[0] && jName[0] <= '9') {
+
+		in, jn := 0, 0
+		fmt.Sscanf(iName, "%d", &in)
+		fmt.Sscanf(jName, "%d", &jn)
+
+		return in < jn
+	}
+
+	return iName < jName
 }
