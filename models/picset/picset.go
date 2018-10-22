@@ -14,38 +14,63 @@ import (
 
 type Picset struct {
 	Dirpath string
-	Name string
-	Thumb string
-	Url string
+	Name    string
+	Thumb   string
+	Url     string
 }
 
 var localDirRoot = "./"
+
 //var fsRoute = "/fs"
 var nothumbUrl = "/static/images/nothumb.png"
+
 //var picsetRoute = "/picset"
 //var pageSize = 8
 var dirCache map[string][]*Picset
-
 
 func init() {
 	dirCache = make(map[string][]*Picset, 0)
 }
 
-
 func GetThumbOfDir(dirpath, preRoute string) string {
-	if _, err := os.Stat(localDirRoot+"/"+dirpath + "/thumb.jpg"); err == nil {
-		return preRoute +"/"+ dirpath+"/thumb.jpg"
+	if _, err := os.Stat(localDirRoot + "/" + dirpath + "/thumb.jpg"); err == nil {
+		return preRoute + "/" + dirpath + "/thumb.jpg"
 	}
 
-	if _, err := os.Stat(localDirRoot+"/"+dirpath+"/thumb.png"); err == nil {
-		return preRoute+"/"+dirpath+"/thumb.png"
+	if _, err := os.Stat(localDirRoot + "/" + dirpath + "/thumb.png"); err == nil {
+		return preRoute + "/" + dirpath + "/thumb.png"
 	}
 
-	return nothumbUrl
+	return ""
+}
+
+func GetThumbFromSubdirs(dirpath, preRoute string) string {
+	dirHandle, err := ioutil.ReadDir(localDirRoot + "/" + dirpath)
+	if err != nil {
+		logs.Warn("cannot open this dir:%s :%v", dirpath, err)
+		return ""
+	}
+
+	for _, fi := range dirHandle {
+		if fi.IsDir() {
+			if subThumb := GetThumbOfDir(dirpath+"/"+fi.Name(), preRoute); subThumb != "" {
+				logs.Debug("dir %s sub %s has thumb:%s", dirpath, fi.Name(), subThumb)
+				return subThumb
+			}
+
+			logs.Debug("dir %s sub %s has no thumb, try subdirs", dirpath, fi.Name())
+			if subThumb := GetThumbFromSubdirs(dirpath+"/"+fi.Name(), preRoute); subThumb != "" {
+				return subThumb
+			}
+		}
+	}
+
+	logs.Warn("this dir has no thumb:%s", dirpath)
+	return ""
 }
 
 func GetTitleOfDir(dirpath, defaultName string) string {
-	if fhandle, err := os.Open(localDirRoot+"/"+dirpath + "/config.json"); err == nil {
+	if fhandle, err := os.Open(localDirRoot + "/" + dirpath + "/config.json"); err == nil {
 		//logs.Info("open %v", dirpath)
 		defer fhandle.Close()
 		content, rerr := ioutil.ReadAll(fhandle)
@@ -66,23 +91,24 @@ func SetLocalDirRoot(dir string) {
 }
 
 /**
-	dirpath must under localRoot
+dirpath must under localRoot
 */
-func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
+func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 	// dirCache = localDirPath=>[]*Picset
 	//logs.Info("in GetPicsetListFromDir, dirpath=%s", dirpath)
 
 	if dirpath == "" {
 		//return nil
+		dirpath = "/"
 	}
 
 	curDirName := path.Base(dirpath)
 	//parentDirName := path.Dir(dirpath)
 
+	// set last char '/'
 	if len(dirpath) > 0 && dirpath[len(dirpath)-1] != '/' {
 		dirpath = dirpath + "/"
 	}
-
 
 	// return if exist
 	if existPicsetList, ok := dirCache[dirpath]; ok {
@@ -93,12 +119,11 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 
 	//logs.Info("not exist:%s", dirpath)
 
-	dirHandle, err := ioutil.ReadDir(localDirRoot+"/"+dirpath)
+	dirHandle, err := ioutil.ReadDir(localDirRoot + "/" + dirpath)
 	if err != nil {
 		logs.Warn("open dir %s error:%v", dirpath, err)
 		return nil
 	}
-
 
 	theDirList := make(PicsetSlice, 0)
 	picIdx := 0
@@ -113,20 +138,24 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 			}
 
 			// 目录 该目录下如果有封面，选出封面
-			thumbPath := GetThumbOfDir(dirpath+fi.Name(), filePreRoute)
+			//thumbPath := GetThumbOfDir(dirpath+fi.Name(), filePreRoute)
 			//logs.Info("fi.name=%v thumb path=%v", fi.Name(), thumbPath)
 
-			dirTitle := fi.Name()//getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum)
+			dirTitle := fi.Name() //getTitleOfDir(dirpath+fi.Name(), fi.Name()),//+fi.Name()+fmt.Sprintf("(%d/%d)", i+1, allNum)
 
-			theDirList = append(theDirList, &Picset{
-				Dirpath:dirpath+fi.Name(),
-				Name:"[DIR]"+dirTitle,
-				Thumb:thumbPath,
-				Url:dirPreRoute+"/"+dirpath+fi.Name(),
-			})
+			picItem := &Picset{
+				Dirpath: dirpath + fi.Name(),
+				Name:    "[DIR]" + dirTitle,
+				Url:     dirPreRoute + "/" + dirpath + fi.Name(),
+				//Thumb:   thumbPath,
+			}
+
+			go picItem.LoadThumb(filePreRoute)
+
+			theDirList = append(theDirList, picItem)
 
 		} else {
-			if lName == "thumb.jpg" || lName == "thumb.png" || lName=="thumb.gif" {
+			if lName == "thumb.jpg" || lName == "thumb.png" || lName == "thumb.gif" {
 				continue
 			}
 
@@ -135,12 +164,12 @@ func GetPicsetListFromDir(dirpath,dirPreRoute,filePreRoute string) []*Picset {
 			// 只有图片才展示
 			fExt := path.Ext(lName)
 			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
-				thumbPath := dirpath+fi.Name()
+				thumbPath := dirpath + fi.Name()
 				theDirList = append(theDirList, &Picset{
-					Dirpath:dirpath+fi.Name(),
-					Name:fmt.Sprintf("%s-%d", curDirName, picIdx),//fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
-					Thumb:filePreRoute+"/"+thumbPath,
-					Url:filePreRoute+"/"+thumbPath,
+					Dirpath: dirpath + fi.Name(),
+					Name:    fmt.Sprintf("%s-%d", curDirName, picIdx), //fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
+					Thumb:   filePreRoute + "/" + thumbPath,
+					Url:     filePreRoute + "/" + thumbPath,
 				})
 
 			}
@@ -173,7 +202,7 @@ func (ps PicsetSlice) Swap(i, j int) {
 
 // 对子目录排序
 func (ps PicsetSlice) Less(i, j int) bool {
-	
+
 	iName, jName := path.Base(ps[i].Dirpath), path.Base(ps[j].Dirpath)
 	if len(iName) > 0 && ('0' <= iName[0] && iName[0] <= '9') &&
 		len(jName) > 0 && ('0' <= jName[0] && jName[0] <= '9') {
@@ -186,4 +215,18 @@ func (ps PicsetSlice) Less(i, j int) bool {
 	}
 
 	return iName < jName
+}
+
+// 有瑕疵，会扫描券目录
+func (p *Picset) LoadThumb(preRoute string) {
+	p.Thumb = GetThumbOfDir(p.Dirpath, preRoute)
+
+	if p.Thumb == "" {
+		p.Thumb = GetThumbFromSubdirs(p.Dirpath, preRoute)
+	}
+
+	if p.Thumb == "" {
+		logs.Warn("load thumb failed, use nothumb, dir=%s", p.Dirpath)
+		p.Thumb = nothumbUrl
+	}
 }

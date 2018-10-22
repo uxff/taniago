@@ -7,7 +7,7 @@ my points
 my bonus
 my recommonder
 my recommended
-recommend rule
+recommending rule
 under a project
 
 
