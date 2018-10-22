@@ -17,6 +17,7 @@ type Picset struct {
 	Name    string
 	Thumb   string
 	Url     string
+	ThumbLoaded bool
 }
 
 var localDirRoot = "./"
@@ -44,7 +45,12 @@ func GetThumbOfDir(dirpath, preRoute string) string {
 	return ""
 }
 
-func GetThumbFromSubdirs(dirpath, preRoute string) string {
+func GetThumbFromSubdirs(dirpath, preRoute string, deep int) string {
+
+	if deep <= 0 {
+		return ""
+	}
+
 	dirHandle, err := ioutil.ReadDir(localDirRoot + "/" + dirpath)
 	if err != nil {
 		logs.Warn("cannot open this dir:%s :%v", dirpath, err)
@@ -54,18 +60,18 @@ func GetThumbFromSubdirs(dirpath, preRoute string) string {
 	for _, fi := range dirHandle {
 		if fi.IsDir() {
 			if subThumb := GetThumbOfDir(dirpath+"/"+fi.Name(), preRoute); subThumb != "" {
-				logs.Debug("dir %s sub %s has thumb:%s", dirpath, fi.Name(), subThumb)
+				logs.Debug("dir %s sub %s HAS thumb:%s", dirpath, fi.Name(), subThumb)
 				return subThumb
 			}
 
-			logs.Debug("dir %s sub %s has no thumb, try subdirs", dirpath, fi.Name())
-			if subThumb := GetThumbFromSubdirs(dirpath+"/"+fi.Name(), preRoute); subThumb != "" {
+			logs.Debug("dir %s sub %s has NO thumb, try subdirs, deep=%d", dirpath, fi.Name(), deep)
+			if subThumb := GetThumbFromSubdirs(dirpath+"/"+fi.Name(), preRoute, deep -1); subThumb != "" {
 				return subThumb
 			}
 		}
 	}
 
-	logs.Warn("this dir has no thumb:%s", dirpath)
+	logs.Warn("this dir has NO thumb:%s", dirpath)
 	return ""
 }
 
@@ -99,7 +105,6 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 
 	if dirpath == "" {
 		//return nil
-		dirpath = "/"
 	}
 
 	curDirName := path.Base(dirpath)
@@ -147,9 +152,13 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 				Dirpath: dirpath + fi.Name(),
 				Name:    "[DIR]" + dirTitle,
 				Url:     dirPreRoute + "/" + dirpath + fi.Name(),
-				//Thumb:   thumbPath,
+				Thumb:   nothumbUrl,
 			}
 
+			if thumbPath := GetThumbOfDir(dirpath+fi.Name(), filePreRoute); thumbPath != "" {
+				picItem.Thumb = thumbPath
+				picItem.ThumbLoaded = true
+			}
 			go picItem.LoadThumb(filePreRoute)
 
 			theDirList = append(theDirList, picItem)
@@ -219,14 +228,13 @@ func (ps PicsetSlice) Less(i, j int) bool {
 
 // 有瑕疵，会扫描券目录
 func (p *Picset) LoadThumb(preRoute string) {
-	p.Thumb = GetThumbOfDir(p.Dirpath, preRoute)
 
-	if p.Thumb == "" {
-		p.Thumb = GetThumbFromSubdirs(p.Dirpath, preRoute)
+	if p.ThumbLoaded {
+		return
 	}
 
-	if p.Thumb == "" {
-		logs.Warn("load thumb failed, use nothumb, dir=%s", p.Dirpath)
-		p.Thumb = nothumbUrl
+	if thumbPath := GetThumbFromSubdirs(p.Dirpath, preRoute, 1); thumbPath != "" {
+		p.Thumb = thumbPath
+		p.ThumbLoaded = true
 	}
 }
