@@ -22,7 +22,7 @@ $ go build
 # you need start mysql service, and config mysql in:
 $ vim conf/app.conf
 # add line:
-# datasource=root:password@tcp(127.0.0.1:3306)/beegoauth?charset=utf8
+ datasource=root:password@tcp(127.0.0.1:3306)/beegoauth?charset=utf8
 
 ```
 
@@ -31,6 +31,10 @@ $ vim conf/app.conf
 ```
 $ ./taniago --dir /data/your/exist/site/dir --addr :6699
 ```
+
+# Preview
+![](https://raw.githubusercontent.com/uxff/taniago/master/20181127073913.png)
+![](https://raw.githubusercontent.com/uxff/taniago/master/20181127074015.png)
 
 
 # Describe and specific requirement
