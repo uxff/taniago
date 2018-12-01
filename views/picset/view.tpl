@@ -3,7 +3,6 @@
 
 
 <div class="container">
-    <div class="clo-md-10">
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -28,7 +27,6 @@
                 </div>
             </div>
         </div>
-    </div>
 {{template "layouts/paginator.html" .}}
 
 </div>
