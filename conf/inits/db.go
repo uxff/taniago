@@ -13,7 +13,7 @@ import (
 	//_ "github.com/mattn/go-sqlite3"
 )
 
-func init() {
+func PrepareDb() {
 
 	runmode := beego.AppConfig.String("runmode")
 	dbname := "default" //beego.AppConfig.String("dbname")
