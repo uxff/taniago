@@ -12,7 +12,7 @@
                 <div class="bootstrap-admin-panel-content span3 arch-warp" style="padding:15px">
                     <div class="row">
                     {{range $k, $aname := .thedirnames}}
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-4">
                             <div class="thumbnail">
                                 <a href="{{$aname.Url}}">
                                     <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}" style="height:100%;">

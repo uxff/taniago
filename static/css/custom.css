@@ -83,7 +83,7 @@ h1,h2,h3,h4,h5,h6,nav {
 
 .thumbnail {
     margin-bottom: 3px;/*覆盖bootstrap默认的margin-bottom:20px;*/
-    height: 320px;
+    height: 300px;
 }
 
 div .thumbnail-title {

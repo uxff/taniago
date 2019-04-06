@@ -24,7 +24,8 @@ func main() {
 	logs.SetLevel(logs.LevelDebug)
 	logs.SetLogFuncCallDepth(logdeep)
 
-	beego.SetStaticPath("fs", serveDir)
+	// todo: use nginx instead
+	//beego.SetStaticPath("fs", serveDir)
 	//beego.AppConfig.Set("", "")
 
 	//controllers.SetLocalDirRoot(serveDir)
