@@ -1,6 +1,8 @@
 package inits
 
 import (
+
+	"fmt"
 	"html/template"
 	"net/url"
 	"reflect"
@@ -8,7 +10,7 @@ import (
 	"time"
 
 	"github.com/beego/i18n"
-	"github.com/ikeikeikeike/gopkg/convert"
+	//"github.com/ikeikeikeike/gopkg/convert"
 	"github.com/mattn/go-runewidth"
 
 	"github.com/astaxie/beego"
@@ -40,7 +42,7 @@ func init() {
 	})
 
 	beego.AddFuncMap("tostr", func(in interface{}) string {
-		return convert.ToStr(reflect.ValueOf(in).Interface())
+		return fmt.Sprintf("%d", in)//convert.ToStr(reflect.ValueOf(in).Interface())
 	})
 
 	beego.AddFuncMap("first", func(in interface{}) interface{} {
