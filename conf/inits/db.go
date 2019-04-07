@@ -19,6 +19,11 @@ func PrepareDb() {
 	dbname := "default" //beego.AppConfig.String("dbname")
 	datasource := beego.AppConfig.String("datasource")
 
+	if datasource == "" {
+
+		return
+	}
+
 	switch runmode {
 	//case "prod":
 	case "dev":
