@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/beego/i18n"
-	//"github.com/ikeikeikeike/gopkg/convert"
 	"github.com/mattn/go-runewidth"
 
 	"github.com/astaxie/beego"

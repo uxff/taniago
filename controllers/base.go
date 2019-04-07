@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/astaxie/beego"
-	"github.com/ikeikeikeike/gopkg/convert"
 	"github.com/uxff/taniago/models"
 	"github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/utils/captcha"
@@ -108,8 +107,8 @@ func (c *BaseController) BuildRequestUrl(uri string) string {
 	if uri == "" {
 		uri = c.Ctx.Input.URI()
 	}
-	return fmt.Sprintf("%s:%s%s",
-		c.Ctx.Input.Site(), convert.ToStr(c.Ctx.Input.Port()), uri)
+	return fmt.Sprintf("%s:%d%s",
+		c.Ctx.Input.Site(), c.Ctx.Input.Port(), uri)
 }
 
 func ShuffleLinks(links models.FriendlyLinks) models.FriendlyLinks {
