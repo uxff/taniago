@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego/utils/captcha"
 	"time"
 	"math/rand"
+	"github.com/uxff/taniago/conf/inits"
 )
 
 // 初始化captcha
@@ -45,8 +46,11 @@ type NestFinisher interface {
 func (c *BaseController) Prepare() {
 	c.SetParams()
 
+	dbok := inits.IsDbOk()
+	c.Data["hasdb"] = dbok
+
 	c.IsLogin = c.GetSession("userinfo") != nil
-	if c.IsLogin {
+	if dbok && c.IsLogin {
 		c.Userinfo = c.GetLogin()
 	}
 

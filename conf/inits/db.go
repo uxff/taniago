@@ -13,6 +13,12 @@ import (
 	//_ "github.com/mattn/go-sqlite3"
 )
 
+var dbok bool
+
+func IsDbOk() bool {
+	return dbok
+}
+
 func PrepareDb() {
 
 	runmode := beego.AppConfig.String("runmode")
@@ -30,7 +36,11 @@ func PrepareDb() {
 		orm.Debug = true
 		fallthrough
 	default:
-		orm.RegisterDataBase(dbname, "mysql", datasource, 30)
+		err := orm.RegisterDataBase(dbname, "mysql", datasource, 30)
+		if err != nil {
+			beego.Error("register db error:%v", err)
+			return
+		}
 	}
 
 	orm.DefaultTimeLoc = time.FixedZone("Asia/Shanghai", 8*60*60)
@@ -38,8 +48,11 @@ func PrepareDb() {
 	force, verbose := false, true
 	err := orm.RunSyncdb(dbname, force, verbose)
 	if err != nil {
-		panic(err)
+		//panic(err)
+		beego.Error("sync db error:%v", err)
+		return
 	}
 
+	dbok = true
 	// orm.RunCommand()
 }
