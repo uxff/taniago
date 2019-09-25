@@ -7,6 +7,7 @@ import (
 	"path"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/astaxie/beego/logs"
 	"github.com/buger/jsonparser"
@@ -31,6 +32,17 @@ var dirCache map[string][]*Picset
 
 func init() {
 	dirCache = make(map[string][]*Picset, 0)
+
+	// 定时清理缓存
+	go func() {
+		tick := time.Tick(time.Second*300)
+		for {
+			select {
+			case <- tick:
+				ClearCache()
+			}
+		}
+	}()
 }
 
 func GetThumbOfDir(dirpath, preRoute string) string {
@@ -107,7 +119,7 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 		//return nil
 	}
 
-	curDirName := path.Base(dirpath)
+	//curDirName := path.Base(dirpath)
 	//parentDirName := path.Dir(dirpath)
 
 	// set last char '/'
@@ -176,7 +188,8 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 				thumbPath := dirpath + fi.Name()
 				theDirList = append(theDirList, &Picset{
 					Dirpath: dirpath + fi.Name(),
-					Name:    fmt.Sprintf("%s-%d", curDirName, picIdx), //fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
+					//Name:    fmt.Sprintf("%s-%d", curDirName, picIdx), //fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
+					Name:    fi.Name(),
 					Thumb:   filePreRoute + "/" + thumbPath,
 					Url:     filePreRoute + "/" + thumbPath,
 				})
