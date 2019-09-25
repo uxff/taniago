@@ -7,6 +7,7 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.IndexController{}, "get:Index")
+	beego.Router("/links", &controllers.IndexController{}, "get:Links")
 	beego.Router("/picset/*", &controllers.PicsetController{}, "get:Picset")
 	beego.Router("/picset", &controllers.PicsetController{}, "delete:ClearCache")
 	beego.Router("/user", &controllers.UsersController{}, "get,post:Index")

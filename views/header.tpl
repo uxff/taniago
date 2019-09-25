@@ -15,8 +15,8 @@
 
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" >
       <ul class="nav navbar-nav">
-        <li><a href='{{urlfor "IndexController.Index"}}'>
-          <span class="glyphicon glyphicon-home"></span> Anonymous Navigator
+        <li><a href='{{urlfor "IndexController.Links"}}'>
+          <span class="glyphicon glyphicon-home"></span> Fancy Navigator
         </a></li>
         <li>
             <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
@@ -27,7 +27,7 @@
                 <li><a href="/picset">Picset</a></li>
                 <li role="presentation" class="divider"></li>
                 <li role="presentation" class="dropdown-header">selected picsets</li>
-                <li><a href="/picset/pacificgirls/">Pacific girls</a></li>
+                <li><a href="/picset/folderName1/">FolderName1</a></li>
                 <li><a href="/picset/55156/">The 55156 site</a></li>
             </ul>
         </li>

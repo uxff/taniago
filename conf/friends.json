@@ -1,39 +1,39 @@
 [
   {
-    "name":"Baidu",
-    "url":"http://www.baidu.com"
+    "name":"阿里巴巴",
+    "url":"http://www.1688.com"
   },
   {
-    "name":"小桔",
-    "url":"http://www.xiaojukeji.com/"
+    "name":"腾讯",
+    "url":"http://www.qq.com"
+  },
+  {
+    "name":"美团",
+    "url":"http://www.meituan.com"
+  },
+  {
+    "name":"京东",
+    "url":"http://www.jd.com"
   },
   {
     "name":"拼多多",
     "url":"http://www.pinduoduo.com"
   },
   {
-    "name":"陆金所",
-    "url":"http://www.lu.com"
+    "name":"Baidu",
+    "url":"http://www.baidu.com"
   },
   {
-    "name":"携程",
-    "url":"http://www.ctrip.com"
+    "name":"网易",
+    "url":"http://www.163.com/"
   },
   {
-    "name":"联想",
-    "url":"http://www.lenovo.com"
+    "name":"小米",
+    "url":"http://www.mi.com"
   },
   {
-    "name":"成都美女",
-    "url":"http://chengdugirl.com"
-  },
-  {
-    "name":"重庆妹子",
-    "url":"http://chongqinggirl.com"
-  },
-  {
-    "name":"四川辣妹",
-    "url":"http://sichuangirl.com"
+    "name":"360",
+    "url":"http://360.cn"
   }
 
 ]

@@ -1,6 +1,7 @@
 package inits
 
 import (
+	"strings"
 	"time"
 
 	_ "github.com/uxff/taniago/models"
@@ -23,10 +24,9 @@ func PrepareDb() {
 
 	runmode := beego.AppConfig.String("runmode")
 	dbname := "default" //beego.AppConfig.String("dbname")
-	datasource := beego.AppConfig.String("datasource")
+	datasource := strings.Trim(beego.AppConfig.String("datasource"), " \t\n\r")
 
 	if datasource == "" {
-
 		return
 	}
 

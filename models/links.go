@@ -15,6 +15,7 @@ type Link struct{
 
 type IndexLinks []struct{
 	Name string `json:"name"`
+	Hide int `json:"hide;omitempty"`
 	Links []Link	`json:"links"`
 }
 
