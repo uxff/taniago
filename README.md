@@ -1,3 +1,8 @@
+# Feature
+
+taniago is a light golang file explorer, writen by golang, use beego.
+
+
 # Requirement
 
 ```
@@ -44,5 +49,27 @@ $ ./taniago --dir /data/your/exist/site/dir --addr :6699
 - save picset list to cache, to mysql.
 - [important] get a face from sub, if no thumb.
 
+# static link to nginx
+nginx config as below, the static jpg,png,... output via nginx. this make the go program light.
+```
+server {
+listen 80;
+server_name yourdomain.com;
+access_log /data/logs/nginx/access.yourdomain.log combined;
+error_log /data/logs/nginx/error.yourdomain.log;
+index index.html index.htm index.jsp index.php;
+include other.conf;
+root /data/wwwroot/yourfiledir;
+#error_page 404 /404.html;
 
+location / {
+    proxy_pass http://127.0.0.1:6699;
+    proxy_set_header Host $host;
+}
+location /fs {
+    alias /data/wwwroot/yourfiledir;
+}
+
+}
+```
 
