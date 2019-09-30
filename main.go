@@ -14,10 +14,12 @@ func main() {
 	logdeep := 3
 	serveDir := "r:/themedia" //"."
 	addr := ":" + beego.AppConfig.String("httpport")
+	serveStatic := false
 
 	//flag.IntVar(&logdeep, "logdeep", logdeep, "log deep")
 	flag.StringVar(&serveDir, "dir", serveDir, "serve dir, witch will browse")
 	flag.StringVar(&addr, "addr", addr, "beego run param addr, format as ip:port")
+	flag.BoolVar(&serveStatic, "s", serveStatic, "serve static")
 	//flag.StringVar(&appenv, "env", appenv, "app env, in app.conf")//use env BEEGO_MODE=dev
 	flag.Parse()
 
@@ -25,7 +27,9 @@ func main() {
 	logs.SetLogFuncCallDepth(logdeep)
 
 	// todo: use nginx instead
-	//beego.SetStaticPath("fs", serveDir)
+	if serveStatic {
+		beego.SetStaticPath("fs", serveDir)
+	}
 	//beego.AppConfig.Set("", "")
 
 	//controllers.SetLocalDirRoot(serveDir)
@@ -37,7 +41,7 @@ func main() {
 	models.SetFriendlyLinksPath("./conf/friends.json")
 	models.LoadFriendlyLinks()
 
-	logs.Info("beego server will run. dir=%s addr=%s", serveDir, addr)
+	logs.Info("beego server will run. dir=%s addr=%s serveStatic=%v", serveDir, addr, serveStatic)
 
 	inits.PrepareDb()
 
