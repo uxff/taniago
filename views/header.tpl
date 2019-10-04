@@ -19,17 +19,17 @@
           <span class="glyphicon glyphicon-home"></span> Fancy Navigator
         </a></li>
         <li>
-            <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
-          <span class="glyphicon glyphicon-picture"></span> Picset <b class="caret"></b>
-        </a>
-            <ul class="dropdown-menu">
-                <li role="presentation" class="dropdown-header">main route</li>
-                <li><a href="/picset">Picset</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation" class="dropdown-header">selected picsets</li>
-                <li><a href="/picset/folderName1/">FolderName1</a></li>
-                <li><a href="/picset/55156/">The 55156 site</a></li>
-            </ul>
+          <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
+            <span class="glyphicon glyphicon-picture"></span> Picset <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li role="presentation" class="dropdown-header">main route</li>
+            <li><a href="/picset">Picset</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation" class="dropdown-header">selected picsets</li>
+            <li><a href="/picset/folderName1/">FolderName1</a></li>
+            <li><a href="/picset/55156/">The 55156 site</a></li>
+          </ul>
         </li>
       </ul>
 
