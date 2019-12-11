@@ -1,0 +1,15 @@
+github.com/Unknwon/goconfig v0.0.0-20180308125533-ef1e4c783f8f h1:2h0zBHX3qNDltgnb2FiMJWYTcqJVDdUeHQU2/5CTc5w=
+github.com/Unknwon/goconfig v0.0.0-20180308125533-ef1e4c783f8f/go.mod h1:wngxua9XCNjvHjDiTiV26DaKDT+0c63QR6H5hjVUUxw=
+github.com/astaxie/beego v0.0.0-20171218111859-f16688817aa4 h1:S+9NpWgwkBlu/nZi3F4bkj5gcf5luYb4h5hc58f+tXo=
+github.com/astaxie/beego v0.0.0-20171218111859-f16688817aa4/go.mod h1:0R4++1tUqERR0WYFWdfkcrsyoVBCG4DgpDGokT3yb+U=
+github.com/beego/i18n v0.0.0-20161101132742-e9308947f407 h1:WtJfx5HqASTQp7HfiZldnin8KQV2futplF3duGp5PGc=
+github.com/beego/i18n v0.0.0-20161101132742-e9308947f407/go.mod h1:KLeFCpAMq2+50NkXC8iiJxLLiiTfTqrGtKEVm+2fk7s=
+github.com/buger/jsonparser v0.0.0-20180318095312-2cac668e8456 h1:SnUWpAH4lEUoS86woR12h21VMUbDe+DYp88V646wwMI=
+github.com/buger/jsonparser v0.0.0-20180318095312-2cac668e8456/go.mod h1:bbYlZJ7hK1yFx9hf58LP0zeX7UjIGs20ufpu3evjr+s=
+github.com/go-sql-driver/mysql v0.0.0-20180125054745-bc14601d1bd5 h1:nV45cJWjAUMSHf+UWP3xP1zNM7us9ZfgS+hYhlKw8Xg=
+github.com/go-sql-driver/mysql v0.0.0-20180125054745-bc14601d1bd5/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
+github.com/ikeikeikeike/gopkg v0.0.0-20150921164235-dba476424b07 h1:4XvA0HB/TdeXFJ4hWUbWzN1o30w08YYxSnvIrX9pKMo=
+github.com/ikeikeikeike/gopkg v0.0.0-20150921164235-dba476424b07/go.mod h1:LmlpAFfqUCX065mTbRXJIJaCr8F1BxkMbUONZWkVUZU=
+github.com/mattn/go-runewidth v0.0.3 h1:a+kO+98RDGEfo6asOGMmpodZq4FNtnGP54yps8BzLR4=
+github.com/mattn/go-runewidth v0.0.3/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzpuz5H//U1FU=
+github.com/satori/go.uuid v0.0.0-20180103174451-36e9d2ebbde5/go.mod h1:dA0hQrYB0VpLJoorglMZABFdXlWrHn1NEOzdhQKdks0=
