@@ -9,7 +9,7 @@
                     <div class="text-muted " style="display:inline">您的位置：</div>
                     <a href="/picset">图集首页</a>/{{if ne .fullParentName "."}}<a href="{{.parentLink}}">{{.fullParentName}}</a>/{{end}}{{if ne .curDirName "."}}{{.curDirName}}{{end}}
                 </div>
-                <div class="bootstrap-admin-panel-content span3 arch-warp" style="padding:15px">
+                <div class="bootstrap-admin-panel-content span3 arch-warp" style="padding:10px">
                     <div class="row">
                     {{range $k, $aname := .thedirnames}}
                         <div class="col-sm-6 col-md-4">
