@@ -11,4 +11,5 @@ require (
 	github.com/ikeikeikeike/gopkg v0.0.0-20150921164235-dba476424b07
 	github.com/mattn/go-runewidth v0.0.3
 	github.com/satori/go.uuid v0.0.0-20180103174451-36e9d2ebbde5
+	github.com/smartystreets/goconvey v1.6.4
 )

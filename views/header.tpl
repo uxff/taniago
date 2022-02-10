@@ -31,6 +31,10 @@
             <li><a href="/picset/55156/">The 55156 site</a></li>
           </ul>
         </li>
+        <li><a href='{{urlfor "IndexController.Links"}}'>
+          <span class="glyphicon glyphicon-cloud"></span> Weather
+          <!--the weather data from: http://www.weather.com.cn/data/sk/101040100.html -->
+        </a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
