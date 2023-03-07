@@ -13,6 +13,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.3
 	github.com/satori/go.uuid v0.0.0-20180103174451-36e9d2ebbde5
 	github.com/smartystreets/goconvey v1.6.4
-	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
