@@ -15,15 +15,20 @@
 
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" >
       <ul class="nav navbar-nav">
+        <!--first level menu-->
         <li><a href='{{urlfor "IndexController.Links"}}'>
           <span class="glyphicon glyphicon-home"></span> Fancy Navigator
+        </a></li>
+        <li><a href='javascript:;'>
+          <span class="glyphicon glyphicon-folder"></span> File Manager
         </a></li>
         <li>
           <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
             <span class="glyphicon glyphicon-picture"></span> Picset <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li role="presentation" class="dropdown-header">main route</li>
+            <!--second level menu-->
+            <li role="presentation" class="dropdown-header">picture class</li>
             <li><a href="/picset">Picset</a></li>
             <li role="presentation" class="divider"></li>
             <li role="presentation" class="dropdown-header">selected picsets</li>
@@ -31,9 +36,8 @@
             <li><a href="/picset/55156/">The 55156 site</a></li>
           </ul>
         </li>
-        <li><a href='{{urlfor "IndexController.Links"}}'>
-          <span class="glyphicon glyphicon-cloud"></span> Weather
-          <!--the weather data from: http://www.weather.com.cn/data/sk/101040100.html -->
+        <li><a href='{{urlfor "TiksaverController.Index"}}'>
+          <span class="glyphicon glyphicon-video"></span> Tiktok Saver
         </a></li>
       </ul>
 

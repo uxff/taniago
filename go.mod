@@ -7,6 +7,7 @@ require (
 	github.com/astaxie/beego v1.12.2
 	github.com/beego/i18n v0.0.0-20161101132742-e9308947f407
 	github.com/buger/jsonparser v1.1.1
+	github.com/cavaliergopher/grab/v3 v3.0.1 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/ikeikeikeike/gopkg v0.0.0-20150921164235-dba476424b07
 	github.com/lib/pq v1.10.7 // indirect
