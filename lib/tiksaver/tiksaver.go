@@ -14,6 +14,13 @@ import (
 
 // from github.com/mehanon/tt_2ch_media
 
+// the website support downloading tiktok videos:
+// https://ssstik.io/en
+// https://www.tikwm.com/api/
+// https://dlpanda.com/
+// https://savett.cc/en
+//
+
 // TiktokInfo there are more fields, tho I omitted unnecessary ones
 type TiktokInfo struct {
 	Id         string `json:"id"`

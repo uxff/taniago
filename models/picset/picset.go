@@ -14,17 +14,20 @@ import (
 )
 
 type Picset struct {
-	Dirpath string
-	Name    string
-	Thumb   string
-	Url     string
-	ThumbLoaded bool
+	Dirpath     string `json:"-"`
+	Name        string `json:"name"`
+	Thumb       string `json:"thumb"`
+	Url         string `json:"url"` //for view tpl mode, beego format this, vue us another format
+	Size        int64  `json:"size"`
+	ThumbLoaded bool   `json:"-"`
+	IsDir       bool   `json:"-"`
+	Mtime       string `json:"mtime"`
 }
 
 var localDirRoot = "./"
 
 //var fsRoute = "/fs"
-var nothumbUrl = "/static/images/nothumb.png"
+const NothumbUrl = "/static/images/nothumb.png"
 
 //var picsetRoute = "/picset"
 //var pageSize = 8
@@ -35,10 +38,10 @@ func init() {
 
 	// 定时清理缓存
 	go func() {
-		tick := time.Tick(time.Second*300)
+		tick := time.Tick(time.Second * 300)
 		for {
 			select {
-			case <- tick:
+			case <-tick:
 				ClearCache()
 			}
 		}
@@ -76,8 +79,8 @@ func GetThumbFromSubdirs(dirpath, preRoute string, deep int) string {
 				return subThumb
 			}
 
-			logs.Debug("dir %s sub %s has NO thumb, try subdirs, deep=%d", dirpath, fi.Name(), deep)
-			if subThumb := GetThumbFromSubdirs(dirpath+"/"+fi.Name(), preRoute, deep -1); subThumb != "" {
+			// logs.Debug("dir %s sub %s has NO thumb, try subdirs, deep=%d", dirpath, fi.Name(), deep)
+			if subThumb := GetThumbFromSubdirs(dirpath+"/"+fi.Name(), preRoute, deep-1); subThumb != "" {
 				return subThumb
 			}
 		}
@@ -149,10 +152,14 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 	for _, fi := range dirHandle {
 
 		lName := strings.ToLower(fi.Name())
+		if len(fi.Name()) > 0 && fi.Name()[0] == '.' {
+			continue
+		}
+
 		if fi.IsDir() {
-			if lName == "thumbs" || lName == "thumb" {
-				continue
-			}
+			// if lName == "thumbs" || lName == "thumb" {
+			// 	continue
+			// }
 
 			// 目录 该目录下如果有封面，选出封面
 			//thumbPath := GetThumbOfDir(dirpath+fi.Name(), filePreRoute)
@@ -162,9 +169,12 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 
 			picItem := &Picset{
 				Dirpath: dirpath + fi.Name(),
-				Name:    "[DIR]" + dirTitle,
+				Name:    dirTitle,
 				Url:     dirPreRoute + "/" + dirpath + fi.Name(),
-				Thumb:   nothumbUrl,
+				Thumb:   "",
+				IsDir:   true,
+				Size:    fi.Size(),
+				Mtime:   fi.ModTime().Format("2006-01-02 15:04"),
 			}
 
 			if thumbPath := GetThumbOfDir(dirpath+fi.Name(), filePreRoute); thumbPath != "" {
@@ -176,28 +186,30 @@ func GetPicsetListFromDir(dirpath, dirPreRoute, filePreRoute string) []*Picset {
 			theDirList = append(theDirList, picItem)
 
 		} else {
-			if lName == "thumb.jpg" || lName == "thumb.png" || lName == "thumb.gif" {
-				continue
-			}
+			// if lName == "thumb.jpg" || lName == "thumb.png" || lName == "thumb.gif" {
+			// 	continue
+			// }
 
 			picIdx++
 
 			// 只有图片才展示
 			fExt := path.Ext(lName)
-			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
-				thumbPath := dirpath + fi.Name()
-				theDirList = append(theDirList, &Picset{
-					Dirpath: dirpath + fi.Name(),
-					//Name:    fmt.Sprintf("%s-%d", curDirName, picIdx), //fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
-					Name:    fi.Name(),
-					Thumb:   filePreRoute + "/" + thumbPath,
-					Url:     filePreRoute + "/" + thumbPath,
-				})
-
+			thumbPath := dirpath + fi.Name()
+			picItem := &Picset{
+				Dirpath: dirpath + fi.Name(),
+				//Name:    fmt.Sprintf("%s-%d", curDirName, picIdx), //fmt.Sprintf("%s-%d", getTitleOfDir(dirpath, curDirName), picIdx),//
+				Name:  fi.Name(),
+				Thumb: "",
+				Url:   filePreRoute + "/" + dirpath + fi.Name(),
+				Size:  fi.Size(),
+				Mtime: fi.ModTime().Format("2006-01-02 15:04"),
 			}
-
+			if fExt == ".jpg" || fExt == ".png" || fExt == ".gif" {
+				picItem.Thumb = filePreRoute + "/" + thumbPath
+				// picItem.Url = filePreRoute + "/" + thumbPath
+			}
+			theDirList = append(theDirList, picItem)
 		}
-
 	}
 
 	sort.Sort(theDirList)

@@ -13,10 +13,10 @@
         </div>
     <div class="row">
         {{range $k, $aname := .thedirnames}}
-        <div class="col-sm-6 col-md-4" style="padding:0px;">
-            <div class="row text-center" style="padding: 0px;height: 300px;vertical-align: middle;text-align: center;">
+        <div class="col-sm-12 col-md-12" style="padding:20px;">
+            <div class="row text-center" style="padding: 0px;vertical-align: middle;text-align: center;/*display: table-cell;vertical-align: bottom;*/">
                 <a href="{{$aname.Url}}">
-                    <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}" style="max-height: 300px; max-width: 390px;display: inline-block;">
+                    <img src="{{$aname.Thumb}}" alt="{{$aname.Name}}" style="width:auto; height:auto;max-height: 100%; max-width: 100%;display: inline-block;background-size:contain;">
                 </a>
             </div>
             <p style="text-align:center;">{{if $aname.IsDir}}<span class='glyphicon glyphicon-folder-open'></span>{{end}}&nbsp;&nbsp;{{$aname.Name}}</p>
