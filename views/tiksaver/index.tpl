@@ -66,6 +66,7 @@
 		</div>
     </div>
     <div class="row">
+        <p>{{if ne .desc ""}}{{.desc}}{{end}}</p>
         <p>{{if ne .link ""}}Downloading {{.link}}{{end}}</p>
         <p>{{if ne .outputfile ""}}{{.outputfile}} is downloaded.{{end}}</p>
         <!-- <p>{{if ne .errmsg ""}}{{.err}}{{end}}</p> -->

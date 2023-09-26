@@ -63,11 +63,13 @@ func TikwnGetInfo(link string) (*TiktokInfo, error) {
 }
 
 // DownloadTiktokTikwm downloads video from tikwm.com
-func DownloadTiktokTikwm(link string) (string, error) {
+func DownloadTiktokTikwm(link string) (outputfile, desc string, err error) {
 	info, err := TikwnGetInfo(link)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
+
+	desc = fmt.Sprintf("%+v", *info)
 
 	var downloadUrl string
 	if info.Hdplay != "" {
@@ -76,7 +78,7 @@ func DownloadTiktokTikwm(link string) (string, error) {
 		println("warning: tikwm couldn't find HD version, downloading how it is...")
 		downloadUrl = info.Play
 	} else {
-		return "", errors.New("no download links found :c")
+		return "", desc, errors.New("no download links found :c")
 	}
 
 	localFilename := fmt.Sprintf(
@@ -88,10 +90,10 @@ func DownloadTiktokTikwm(link string) (string, error) {
 
 	err = Wget(downloadUrl, localFilename)
 	if err != nil {
-		return "", err
+		return "", desc, err
 	}
 
-	return localFilename, nil
+	return localFilename, desc, nil
 }
 
 func Wget(url string, filename string) error {

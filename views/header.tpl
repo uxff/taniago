@@ -20,7 +20,7 @@
           <span class="glyphicon glyphicon-home"></span> Fancy Navigator
         </a></li>
         <li><a href='javascript:;'>
-          <span class="glyphicon glyphicon-folder"></span> File Manager
+          <span class="glyphicon glyphicon-folder-close"></span> File Manager
         </a></li>
         <li>
           <a href="javascript:;" class="dropdown-toggle" data-hover="dropdown">
@@ -37,7 +37,7 @@
           </ul>
         </li>
         <li><a href='{{urlfor "TiksaverController.Index"}}'>
-          <span class="glyphicon glyphicon-video"></span> Tiktok Saver
+          <span class="glyphicon glyphicon-play"></span> Tiktok Saver
         </a></li>
       </ul>
 

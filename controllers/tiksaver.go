@@ -19,6 +19,7 @@ func (this *TiksaverController) Index() {
 	this.Data["outputfile"] = ""
 	this.Data["link"] = ""
 	this.Data["errmsg"] = ""
+	this.Data["desc"] = ""
 	this.TplName = "tiksaver/index.tpl"
 
 }
@@ -34,11 +35,12 @@ func (this *TiksaverController) Download() {
 		return
 	}
 
-	outputfile, err := tiksaver.DownloadTiktokTikwm(link)
+	outputfile, desc, err := tiksaver.DownloadTiktokTikwm(link)
 
 	this.Data["outputfile"] = outputfile
 	this.Data["link"] = link
 	this.Data["errmsg"] = ""
+	this.Data["desc"] = desc
 	if err != nil {
 		this.Data["errmsg"] = fmt.Sprintf("%+v", err)
 		logs.Warn("download %v error:%+v", link, err)
