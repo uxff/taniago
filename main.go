@@ -2,17 +2,20 @@ package main
 
 import (
 	"flag"
+	"os"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/uxff/taniago/conf/inits"
 	"github.com/uxff/taniago/models"
 	"github.com/uxff/taniago/models/picset"
 	_ "github.com/uxff/taniago/routers"
+	"github.com/uxff/taniago/utils"
 )
 
 func main() {
 	logdeep := 3
-	serveDir := "r:/themedia" //"."
+	serveDir := "e://" //"."
 	addr := ":" + beego.AppConfig.String("httpport")
 	serveStatic := false
 
@@ -31,6 +34,18 @@ func main() {
 		beego.SetStaticPath("fs", serveDir)
 	}
 	//beego.AppConfig.Set("", "")
+
+	curDir := os.Getenv("PWD")
+	localViewPath := curDir + "/views/"
+	// if local views path not exist, use gopath/uxff/taniago/views
+	if utils.IsDirExist(localViewPath) {
+		beego.SetViewsPath(localViewPath)
+	} else {
+		gopath := os.Getenv("GOPATH")
+		if gopath != "" {
+			beego.SetViewsPath(gopath + "/src/uxff/taniago/views/")
+		}
+	}
 
 	//controllers.SetLocalDirRoot(serveDir)
 	picset.SetLocalDirRoot(serveDir)

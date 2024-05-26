@@ -3,13 +3,14 @@ package controllers
 import (
 	"fmt"
 
+	"math/rand"
+	"time"
+
 	"github.com/astaxie/beego"
-	"github.com/uxff/taniago/models"
 	"github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/utils/captcha"
-	"time"
-	"math/rand"
 	"github.com/uxff/taniago/conf/inits"
+	"github.com/uxff/taniago/models"
 )
 
 // 初始化captcha
@@ -27,8 +28,8 @@ func init() {
 type BaseController struct {
 	beego.Controller
 
-	Userinfo   *models.User
-	IsLogin    bool
+	Userinfo *models.User
+	IsLogin  bool
 
 	theStore   cache.Cache
 	theCaptcha *captcha.Captcha
@@ -116,20 +117,24 @@ func (c *BaseController) BuildRequestUrl(uri string) string {
 }
 
 func ShuffleLinks(links models.FriendlyLinks) models.FriendlyLinks {
+	if len(links) == 0 {
+		return links
+	}
+
 	thelen := len(links)
 	targetLinks := make(models.FriendlyLinks, 0, thelen)
 	roundNum := time.Now().Unix()
-	roundStart := rand.Int()%thelen
+	roundStart := rand.Int() % thelen
 
 	switch true {
 	case roundNum&1 == 0:
 		// 正序
-		for i := 0; i<thelen; i++ {
+		for i := 0; i < thelen; i++ {
 			targetLinks = append(targetLinks, links[(i+roundStart)%thelen])
 		}
 	case roundNum&1 == 1:
 		// 倒叙
-		for i := 0; i<thelen; i++ {
+		for i := 0; i < thelen; i++ {
 			targetLinks = append(targetLinks, links[(-i+roundStart+thelen)%thelen])
 		}
 	}
